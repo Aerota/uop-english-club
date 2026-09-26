@@ -31,11 +31,12 @@ function boxesFor(items: ContentItem[], names: ActivityName[]) {
   return Array.from(boxes.entries()).filter(([, list]) => list.length > 0);
 }
 
-/** Per-group work, switched by activity type and split into named boxes. */
-export function GroupActivities({ groupId }: { groupId: string }) {
+/** Per-group work, switched by activity type: posts first, then uploaded files. */
+export function GroupActivities({ groupId, groupSlug }: { groupId: string; groupSlug: string }) {
   const activities = useQuery(activitiesQuery);
   const content = useQuery(contentQuery);
   const activityNames = useQuery(activityNamesQuery);
+  const posts = useQuery(postsQuery);
   const list = (activities.data ?? []).slice().sort((a, b) => a.sort_order - b.sort_order);
   const [active, setActive] = useState<string>("");
   const [openBox, setOpenBox] = useState<{ name: string; items: ContentItem[] } | null>(null);
@@ -46,6 +47,10 @@ export function GroupActivities({ groupId }: { groupId: string }) {
 
   const current = active || list[0]!.slug;
   const groupContent = (content.data ?? []).filter((c) => c.group_id === groupId);
+  const groupPosts = (posts.data ?? []).filter(
+    (p) => p.group_id === groupId && p.status === "published",
+  );
+
 
   return (
     <>
