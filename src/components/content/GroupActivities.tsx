@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
 import { ContentCollage } from "@/components/content/ContentCollage";
+import { PostCardGrid } from "@/components/content/PostCardGrid";
 import {
   Dialog,
   DialogContent,
@@ -10,8 +11,14 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { activitiesQuery, activityNamesQuery, contentQuery } from "@/lib/data/queries";
+import {
+  activitiesQuery,
+  activityNamesQuery,
+  contentQuery,
+  postsQuery,
+} from "@/lib/data/queries";
 import type { ActivityName, ContentItem } from "@/lib/data/types";
+
 
 /** Activity types that keep their work inside named boxes. */
 const GROUPED_SLUGS = ["presentations", "group-activities", "projects"];
