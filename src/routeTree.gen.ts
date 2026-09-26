@@ -14,9 +14,9 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as MemoriesRouteImport } from './routes/memories'
 import { Route as GroupsIndexRouteImport } from './routes/groups.index'
-import { Route as GroupsSlugRouteImport } from './routes/groups.$slug'
 import { Route as PortalLoginRouteImport } from './routes/portal.login'
 import { Route as AuthenticatedPortalDashboardRouteImport } from './routes/_authenticated/portal.dashboard'
+import { Route as GroupsSlugIndexRouteImport } from './routes/groups.$slug.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -42,11 +42,6 @@ const GroupsIndexRoute = GroupsIndexRouteImport.update({
   path: '/groups/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const GroupsSlugRoute = GroupsSlugRouteImport.update({
-  id: '/groups/$slug',
-  path: '/groups/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const PortalLoginRoute = PortalLoginRouteImport.update({
   id: '/portal/login',
   path: '/portal/login',
@@ -58,24 +53,29 @@ const AuthenticatedPortalDashboardRoute =
     path: '/portal/dashboard',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const GroupsSlugIndexRoute = GroupsSlugIndexRouteImport.update({
+  id: '/groups/$slug/',
+  path: '/groups/$slug/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/memories': typeof MemoriesRoute
-  '/groups/$slug': typeof GroupsSlugRoute
   '/portal/login': typeof PortalLoginRoute
   '/groups/': typeof GroupsIndexRoute
   '/portal/dashboard': typeof AuthenticatedPortalDashboardRoute
+  '/groups/$slug/': typeof GroupsSlugIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/memories': typeof MemoriesRoute
-  '/groups/$slug': typeof GroupsSlugRoute
   '/portal/login': typeof PortalLoginRoute
   '/groups': typeof GroupsIndexRoute
   '/portal/dashboard': typeof AuthenticatedPortalDashboardRoute
+  '/groups/$slug': typeof GroupsSlugIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -83,10 +83,10 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/memories': typeof MemoriesRoute
-  '/groups/$slug': typeof GroupsSlugRoute
   '/portal/login': typeof PortalLoginRoute
   '/groups/': typeof GroupsIndexRoute
   '/_authenticated/portal/dashboard': typeof AuthenticatedPortalDashboardRoute
+  '/groups/$slug/': typeof GroupsSlugIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -94,29 +94,29 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/memories'
-    | '/groups/$slug'
     | '/portal/login'
     | '/groups/'
     | '/portal/dashboard'
+    | '/groups/$slug/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/memories'
-    | '/groups/$slug'
     | '/portal/login'
     | '/groups'
     | '/portal/dashboard'
+    | '/groups/$slug'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/about'
     | '/memories'
-    | '/groups/$slug'
     | '/portal/login'
     | '/groups/'
     | '/_authenticated/portal/dashboard'
+    | '/groups/$slug/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -124,9 +124,9 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   MemoriesRoute: typeof MemoriesRoute
-  GroupsSlugRoute: typeof GroupsSlugRoute
   PortalLoginRoute: typeof PortalLoginRoute
   GroupsIndexRoute: typeof GroupsIndexRoute
+  GroupsSlugIndexRoute: typeof GroupsSlugIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -166,13 +166,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GroupsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/groups/$slug': {
-      id: '/groups/$slug'
-      path: '/groups/$slug'
-      fullPath: '/groups/$slug'
-      preLoaderRoute: typeof GroupsSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/portal/login': {
       id: '/portal/login'
       path: '/portal/login'
@@ -186,6 +179,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/portal/dashboard'
       preLoaderRoute: typeof AuthenticatedPortalDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/groups/$slug/': {
+      id: '/groups/$slug/'
+      path: '/groups/$slug'
+      fullPath: '/groups/$slug/'
+      preLoaderRoute: typeof GroupsSlugIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
@@ -206,9 +206,9 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   MemoriesRoute: MemoriesRoute,
-  GroupsSlugRoute: GroupsSlugRoute,
   PortalLoginRoute: PortalLoginRoute,
   GroupsIndexRoute: GroupsIndexRoute,
+  GroupsSlugIndexRoute: GroupsSlugIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

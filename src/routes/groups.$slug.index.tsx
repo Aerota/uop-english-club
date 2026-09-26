@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/select";
 import { contentQuery, groupsQuery, membersQuery } from "@/lib/data/queries";
 
-export const Route = createFileRoute("/groups/$slug")({
+export const Route = createFileRoute("/groups/$slug/")({
   head: () => ({
     meta: [
       { title: "AB Group — 5-10 English Program" },
