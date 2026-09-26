@@ -1,10 +1,14 @@
 # Roadmap
 
-- [x] Add restrained entrance animation to public page sections.
-- [x] Add coordinated card, image, icon, link, and call-to-action hover motion.
-- [x] Add a subtle cursor-following accent and low-opacity academic symbols.
-- [x] Verify desktop, mobile, and reduced-motion behavior.## Portal dashboard redesign
-- [ ] Redesign dashboard navigation and mobile layout
-- [ ] Add admin group selector for group-specific editing
-- [ ] Add admin activity type label editing
-- [ ] Verify desktop and mobile portal flows
+## Portal dashboard redesign
+- [x] Redesign dashboard navigation and mobile layout
+- [x] Add admin group selector for group-specific editing
+- [x] Add admin activity type label editing
+- [x] Verify desktop and mobile portal flows (all sections, no console errors, no mobile overflow)
+
+## After the remix (new backend)
+- [x] Seed 4 fixed activity types + 6 starter groups (backend was empty after remix)
+- [x] Create test admin account portal.admin.test@gmail.com (password known to owner conversation only)
+- [ ] Replace starter group names with real group names and add taglines/descriptions — needs real names from the team
+- [ ] Re-create the 5 group login accounts (new backend has none; only the test admin exists)
+- [ ] Re-add teachers' panel members (Panels section)
