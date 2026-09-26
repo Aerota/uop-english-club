@@ -6,11 +6,13 @@ import {
   Images,
   LayoutDashboard,
   LogOut,
+  Newspaper,
   Settings,
   Tags,
   UserRoundCog,
   Users,
 } from "lucide-react";
+
 import { useEffect, useState } from "react";
 
 import { PageLayout } from "@/components/layout/PageLayout";
@@ -22,6 +24,8 @@ import { GalleryManager } from "@/components/portal/GalleryManager";
 import { GroupDetailsForm } from "@/components/portal/GroupDetailsForm";
 import { MembersManager } from "@/components/portal/MembersManager";
 import { PanelManager } from "@/components/portal/PanelManager";
+import { PostsManager } from "@/components/portal/PostsManager";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
