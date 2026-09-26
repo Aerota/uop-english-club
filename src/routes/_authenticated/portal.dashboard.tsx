@@ -101,12 +101,14 @@ function DashboardPage() {
   }
 
   const groupSections = [
+    { value: "posts", label: "Posts", icon: Newspaper },
     { value: "content", label: "Content", icon: BookOpenText },
     { value: "group", label: "Group details", icon: LayoutDashboard },
     { value: "members", label: "Members", icon: Users },
     { value: "activity-names", label: "Activity names", icon: Tags },
     { value: "gallery", label: "Gallery", icon: Images },
   ];
+
   const adminSections = [
     { value: "activity-types", label: "Activity type labels", icon: UserRoundCog },
     { value: "panels", label: "Panels", icon: Camera },
@@ -202,9 +204,14 @@ function DashboardPage() {
               <h2 className="mt-1 text-xl font-semibold">{activeLabel}</h2>
             </div>
 
+          <TabsContent value="posts" className="mt-6">
+            {selectedGroupId ? <PostsManager key={selectedGroupId} userId={userId} isAdmin={isAdmin} groupId={selectedGroupId} /> : null}
+          </TabsContent>
+
           <TabsContent value="content" className="mt-6">
             {selectedGroupId ? <ContentManager key={selectedGroupId} userId={userId} isAdmin={isAdmin} groupId={selectedGroupId} /> : null}
           </TabsContent>
+
 
           {selectedGroup ? (
             <TabsContent value="group" className="mt-6">

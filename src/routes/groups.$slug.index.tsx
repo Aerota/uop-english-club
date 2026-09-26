@@ -143,7 +143,7 @@ function GroupDetailPage() {
         <p className="mt-1 text-sm text-muted-foreground">
           Switch between activity types to see this group&apos;s work.
         </p>
-        <GroupActivities groupId={group.id} />
+        <GroupActivities groupId={group.id} groupSlug={group.slug} />
       </section>
 
       <section className="bg-secondary/60 py-16">
