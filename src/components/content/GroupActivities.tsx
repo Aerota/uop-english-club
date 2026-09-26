@@ -65,6 +65,7 @@ export function GroupActivities({ groupId, groupSlug }: { groupId: string; group
 
         {list.map((activity) => {
           const items = groupContent.filter((c) => c.activity_id === activity.id);
+          const activityPosts = groupPosts.filter((p) => p.activity_id === activity.id);
           const grouped = GROUPED_SLUGS.includes(activity.slug);
           return (
             <TabsContent key={activity.id} value={activity.slug} className="mt-6">
@@ -72,11 +73,14 @@ export function GroupActivities({ groupId, groupSlug }: { groupId: string; group
                 <p className="max-w-3xl text-sm text-muted-foreground">{activity.description}</p>
               ) : null}
 
-              {items.length === 0 ? (
-                <p className="mt-6 text-sm text-muted-foreground">
-                  Nothing published under {activity.title.toLowerCase()} yet.
-                </p>
-              ) : grouped ? (
+              <PostCardGrid
+                posts={activityPosts}
+                groupSlug={groupSlug}
+                activitySlug={activity.slug}
+              />
+
+              {items.length === 0 ? null : grouped ? (
+
                 <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {boxesFor(
                     items,
