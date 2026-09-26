@@ -17,6 +17,7 @@ import { Route as GroupsIndexRouteImport } from './routes/groups.index'
 import { Route as PortalLoginRouteImport } from './routes/portal.login'
 import { Route as AuthenticatedPortalDashboardRouteImport } from './routes/_authenticated/portal.dashboard'
 import { Route as GroupsSlugIndexRouteImport } from './routes/groups.$slug.index'
+import { Route as GroupsSlugActivityPostRouteImport } from './routes/groups.$slug.$activity.$post'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -58,6 +59,11 @@ const GroupsSlugIndexRoute = GroupsSlugIndexRouteImport.update({
   path: '/groups/$slug/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GroupsSlugActivityPostRoute = GroupsSlugActivityPostRouteImport.update({
+  id: '/groups/$slug/$activity/$post',
+  path: '/groups/$slug/$activity/$post',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -67,6 +73,7 @@ export interface FileRoutesByFullPath {
   '/groups/': typeof GroupsIndexRoute
   '/portal/dashboard': typeof AuthenticatedPortalDashboardRoute
   '/groups/$slug/': typeof GroupsSlugIndexRoute
+  '/groups/$slug/$activity/$post': typeof GroupsSlugActivityPostRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -76,6 +83,7 @@ export interface FileRoutesByTo {
   '/groups': typeof GroupsIndexRoute
   '/portal/dashboard': typeof AuthenticatedPortalDashboardRoute
   '/groups/$slug': typeof GroupsSlugIndexRoute
+  '/groups/$slug/$activity/$post': typeof GroupsSlugActivityPostRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -87,6 +95,7 @@ export interface FileRoutesById {
   '/groups/': typeof GroupsIndexRoute
   '/_authenticated/portal/dashboard': typeof AuthenticatedPortalDashboardRoute
   '/groups/$slug/': typeof GroupsSlugIndexRoute
+  '/groups/$slug/$activity/$post': typeof GroupsSlugActivityPostRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -98,6 +107,7 @@ export interface FileRouteTypes {
     | '/groups/'
     | '/portal/dashboard'
     | '/groups/$slug/'
+    | '/groups/$slug/$activity/$post'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -107,6 +117,7 @@ export interface FileRouteTypes {
     | '/groups'
     | '/portal/dashboard'
     | '/groups/$slug'
+    | '/groups/$slug/$activity/$post'
   id:
     | '__root__'
     | '/'
@@ -117,6 +128,7 @@ export interface FileRouteTypes {
     | '/groups/'
     | '/_authenticated/portal/dashboard'
     | '/groups/$slug/'
+    | '/groups/$slug/$activity/$post'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -127,6 +139,7 @@ export interface RootRouteChildren {
   PortalLoginRoute: typeof PortalLoginRoute
   GroupsIndexRoute: typeof GroupsIndexRoute
   GroupsSlugIndexRoute: typeof GroupsSlugIndexRoute
+  GroupsSlugActivityPostRoute: typeof GroupsSlugActivityPostRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -187,6 +200,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GroupsSlugIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/groups/$slug/$activity/$post': {
+      id: '/groups/$slug/$activity/$post'
+      path: '/groups/$slug/$activity/$post'
+      fullPath: '/groups/$slug/$activity/$post'
+      preLoaderRoute: typeof GroupsSlugActivityPostRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -209,6 +229,7 @@ const rootRouteChildren: RootRouteChildren = {
   PortalLoginRoute: PortalLoginRoute,
   GroupsIndexRoute: GroupsIndexRoute,
   GroupsSlugIndexRoute: GroupsSlugIndexRoute,
+  GroupsSlugActivityPostRoute: GroupsSlugActivityPostRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
