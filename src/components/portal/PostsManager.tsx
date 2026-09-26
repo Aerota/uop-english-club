@@ -478,12 +478,13 @@ export function PostsManager({ userId, isAdmin, groupId }: Props) {
                 <li key={post.id} className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 py-3">
                   <div className="min-w-0">
                     <p className="truncate font-medium">{post.title}</p>
-                    <p className="mt-1 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                    <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
                       <Badge variant="secondary">{activity?.title ?? "Activity"}</Badge>
                       <span>{post.post_date}</span>
                       {post.status === "draft" ? <Badge variant="outline">Draft</Badge> : null}
                       <span>{post.likes_count} likes</span>
-                    </p>
+                    </div>
+
                   </div>
                   <div className="flex gap-1">
                     <Button variant="ghost" size="sm" onClick={() => startEdit(post)}>
