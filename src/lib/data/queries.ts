@@ -1,6 +1,8 @@
 import { queryOptions } from "@tanstack/react-query";
 
 import { supabase } from "@/integrations/supabase/client";
+import { isStoredPostPath, signPostPaths } from "@/lib/posts/media";
+import type { ActivityPost, PostBlock } from "@/lib/posts/types";
 import type {
   Activity,
   ActivityName,
@@ -12,6 +14,68 @@ import type {
   PanelMember,
   Profile,
 } from "./types";
+
+/** Posts readable by the current visitor (published, plus own drafts). */
+export const postsQuery = queryOptions({
+  queryKey: ["activity_posts"],
+  queryFn: async (): Promise<ActivityPost[]> => {
+    const { data, error } = await supabase
+      .from("activity_posts")
+      .select("*")
+      .order("post_date", { ascending: false })
+      .order("created_at", { ascending: false });
+    if (error) throw error;
+
+    const rows = ((data ?? []) as unknown[]).map((row) => {
+      const post = row as ActivityPost;
+      return { ...post, blocks: Array.isArray(post.blocks) ? post.blocks : [] };
+    });
+
+    const paths: string[] = [];
+    for (const post of rows) {
+      if (isStoredPostPath(post.header_image_url)) paths.push(post.header_image_url);
+      for (const block of post.blocks) collectBlockPaths(block, paths);
+    }
+    const signed = await signPostPaths(paths);
+
+    return rows.map((post) => ({
+      ...post,
+      header_url: isStoredPostPath(post.header_image_url)
+        ? (signed[post.header_image_url] ?? null)
+        : post.header_image_url,
+      blocks: post.blocks.map((block) => resolveBlock(block, signed)),
+    }));
+  },
+});
+
+function collectBlockPaths(block: PostBlock, out: string[]) {
+  if (block.type === "photo" && isStoredPostPath(block.path)) out.push(block.path);
+  if (block.type === "album") {
+    for (const image of block.images ?? []) {
+      if (isStoredPostPath(image.path)) out.push(image.path);
+    }
+  }
+}
+
+function resolveBlock(block: PostBlock, signed: Record<string, string>): PostBlock {
+  if (block.type === "photo") {
+    return {
+      ...block,
+      url: isStoredPostPath(block.path) ? (signed[block.path] ?? null) : (block.url ?? null),
+    };
+  }
+  if (block.type === "album") {
+    return {
+      ...block,
+      images: (block.images ?? []).map((image) => ({
+        ...image,
+        url: isStoredPostPath(image.path) ? (signed[image.path] ?? null) : (image.url ?? null),
+      })),
+    };
+  }
+  return block;
+}
+
 
 export const panelsQuery = queryOptions({
   queryKey: ["panel_members"],

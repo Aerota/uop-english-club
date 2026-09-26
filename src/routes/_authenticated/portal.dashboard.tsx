@@ -6,11 +6,13 @@ import {
   Images,
   LayoutDashboard,
   LogOut,
+  Newspaper,
   Settings,
   Tags,
   UserRoundCog,
   Users,
 } from "lucide-react";
+
 import { useEffect, useState } from "react";
 
 import { PageLayout } from "@/components/layout/PageLayout";
@@ -22,6 +24,8 @@ import { GalleryManager } from "@/components/portal/GalleryManager";
 import { GroupDetailsForm } from "@/components/portal/GroupDetailsForm";
 import { MembersManager } from "@/components/portal/MembersManager";
 import { PanelManager } from "@/components/portal/PanelManager";
+import { PostsManager } from "@/components/portal/PostsManager";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -61,7 +65,7 @@ function DashboardPage() {
   const queryClient = useQueryClient();
   const me = useQuery(myProfileQuery);
   const groups = useQuery(groupsQuery);
-  const [section, setSection] = useState("content");
+  const [section, setSection] = useState("posts");
   const [adminGroupId, setAdminGroupId] = useState("");
 
   useEffect(() => {
@@ -101,12 +105,14 @@ function DashboardPage() {
   }
 
   const groupSections = [
+    { value: "posts", label: "Posts", icon: Newspaper },
     { value: "content", label: "Content", icon: BookOpenText },
     { value: "group", label: "Group details", icon: LayoutDashboard },
     { value: "members", label: "Members", icon: Users },
     { value: "activity-names", label: "Activity names", icon: Tags },
     { value: "gallery", label: "Gallery", icon: Images },
   ];
+
   const adminSections = [
     { value: "activity-types", label: "Activity type labels", icon: UserRoundCog },
     { value: "panels", label: "Panels", icon: Camera },
@@ -202,9 +208,14 @@ function DashboardPage() {
               <h2 className="mt-1 text-xl font-semibold">{activeLabel}</h2>
             </div>
 
+          <TabsContent value="posts" className="mt-6">
+            {selectedGroupId ? <PostsManager key={selectedGroupId} userId={userId} isAdmin={isAdmin} groupId={selectedGroupId} /> : null}
+          </TabsContent>
+
           <TabsContent value="content" className="mt-6">
             {selectedGroupId ? <ContentManager key={selectedGroupId} userId={userId} isAdmin={isAdmin} groupId={selectedGroupId} /> : null}
           </TabsContent>
+
 
           {selectedGroup ? (
             <TabsContent value="group" className="mt-6">

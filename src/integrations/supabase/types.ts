@@ -89,6 +89,72 @@ export type Database = {
           },
         ]
       }
+      activity_posts: {
+        Row: {
+          activity_id: string
+          blocks: Json
+          created_at: string
+          created_by: string | null
+          excerpt: string | null
+          group_id: string
+          header_image_url: string | null
+          id: string
+          likes_count: number
+          post_date: string
+          slug: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          activity_id: string
+          blocks?: Json
+          created_at?: string
+          created_by?: string | null
+          excerpt?: string | null
+          group_id: string
+          header_image_url?: string | null
+          id?: string
+          likes_count?: number
+          post_date?: string
+          slug: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          activity_id?: string
+          blocks?: Json
+          created_at?: string
+          created_by?: string | null
+          excerpt?: string | null
+          group_id?: string
+          header_image_url?: string | null
+          id?: string
+          likes_count?: number
+          post_date?: string
+          slug?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "activity_posts_activity_id_fkey"
+            columns: ["activity_id"]
+            isOneToOne: false
+            referencedRelation: "activities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "activity_posts_group_id_fkey"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "groups"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       content_items: {
         Row: {
           activity_id: string | null
@@ -364,6 +430,35 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      post_likes: {
+        Row: {
+          client_key: string
+          created_at: string
+          id: string
+          post_id: string
+        }
+        Insert: {
+          client_key: string
+          created_at?: string
+          id?: string
+          post_id: string
+        }
+        Update: {
+          client_key?: string
+          created_at?: string
+          id?: string
+          post_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "post_likes_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "activity_posts"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {

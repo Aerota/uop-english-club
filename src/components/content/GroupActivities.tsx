@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
 import { ContentCollage } from "@/components/content/ContentCollage";
+import { PostCardGrid } from "@/components/content/PostCardGrid";
 import {
   Dialog,
   DialogContent,
@@ -10,8 +11,14 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { activitiesQuery, activityNamesQuery, contentQuery } from "@/lib/data/queries";
+import {
+  activitiesQuery,
+  activityNamesQuery,
+  contentQuery,
+  postsQuery,
+} from "@/lib/data/queries";
 import type { ActivityName, ContentItem } from "@/lib/data/types";
+
 
 /** Activity types that keep their work inside named boxes. */
 const GROUPED_SLUGS = ["presentations", "group-activities", "projects"];
@@ -31,11 +38,12 @@ function boxesFor(items: ContentItem[], names: ActivityName[]) {
   return Array.from(boxes.entries()).filter(([, list]) => list.length > 0);
 }
 
-/** Per-group work, switched by activity type and split into named boxes. */
-export function GroupActivities({ groupId }: { groupId: string }) {
+/** Per-group work, switched by activity type: posts first, then uploaded files. */
+export function GroupActivities({ groupId, groupSlug }: { groupId: string; groupSlug: string }) {
   const activities = useQuery(activitiesQuery);
   const content = useQuery(contentQuery);
   const activityNames = useQuery(activityNamesQuery);
+  const posts = useQuery(postsQuery);
   const list = (activities.data ?? []).slice().sort((a, b) => a.sort_order - b.sort_order);
   const [active, setActive] = useState<string>("");
   const [openBox, setOpenBox] = useState<{ name: string; items: ContentItem[] } | null>(null);
@@ -46,6 +54,10 @@ export function GroupActivities({ groupId }: { groupId: string }) {
 
   const current = active || list[0]!.slug;
   const groupContent = (content.data ?? []).filter((c) => c.group_id === groupId);
+  const groupPosts = (posts.data ?? []).filter(
+    (p) => p.group_id === groupId && p.status === "published",
+  );
+
 
   return (
     <>
@@ -60,6 +72,7 @@ export function GroupActivities({ groupId }: { groupId: string }) {
 
         {list.map((activity) => {
           const items = groupContent.filter((c) => c.activity_id === activity.id);
+          const activityPosts = groupPosts.filter((p) => p.activity_id === activity.id);
           const grouped = GROUPED_SLUGS.includes(activity.slug);
           return (
             <TabsContent key={activity.id} value={activity.slug} className="mt-6">
@@ -67,11 +80,14 @@ export function GroupActivities({ groupId }: { groupId: string }) {
                 <p className="max-w-3xl text-sm text-muted-foreground">{activity.description}</p>
               ) : null}
 
-              {items.length === 0 ? (
-                <p className="mt-6 text-sm text-muted-foreground">
-                  Nothing published under {activity.title.toLowerCase()} yet.
-                </p>
-              ) : grouped ? (
+              <PostCardGrid
+                posts={activityPosts}
+                groupSlug={groupSlug}
+                activitySlug={activity.slug}
+              />
+
+              {items.length === 0 ? null : grouped ? (
+
                 <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {boxesFor(
                     items,

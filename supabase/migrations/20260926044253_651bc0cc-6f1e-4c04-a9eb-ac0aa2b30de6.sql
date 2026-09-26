@@ -1,0 +1,1 @@
+REVOKE EXECUTE ON FUNCTION public.sync_post_likes_count() FROM anon, authenticated, PUBLIC;
