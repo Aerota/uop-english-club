@@ -65,7 +65,7 @@ function DashboardPage() {
   const queryClient = useQueryClient();
   const me = useQuery(myProfileQuery);
   const groups = useQuery(groupsQuery);
-  const [section, setSection] = useState("content");
+  const [section, setSection] = useState("posts");
   const [adminGroupId, setAdminGroupId] = useState("");
 
   useEffect(() => {
