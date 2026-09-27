@@ -1,6 +1,7 @@
 /** Client-side image shrinking so stored photos stay tiny. */
 
 import { supabase } from "@/integrations/supabase/client";
+import { PDF_MAX_BYTES } from "@/lib/posts/types";
 
 const BUCKET = "posts";
 
@@ -68,6 +69,26 @@ export async function uploadPostImage(
 
   const url = (await signPostPaths([path]))[path] ?? "";
   return { path, url };
+}
+
+/** Upload a PDF document and return the stored path plus a display link. */
+export async function uploadPostPdf(
+  file: File,
+  groupId: string,
+): Promise<{ path: string; url: string; fileName: string }> {
+  const isPdf = file.type === "application/pdf" || /\.pdf$/i.test(file.name);
+  if (!isPdf) throw new Error("Please choose a PDF file.");
+  if (file.size > PDF_MAX_BYTES) throw new Error("PDF files must be smaller than 15 MB.");
+
+  const path = `${groupId}/${crypto.randomUUID()}.pdf`;
+  const { error } = await supabase.storage.from(BUCKET).upload(path, file, {
+    contentType: "application/pdf",
+    upsert: false,
+  });
+  if (error) throw error;
+
+  const url = (await signPostPaths([path]))[path] ?? "";
+  return { path, url, fileName: file.name };
 }
 
 /** Remove a stored post image so replaced files stop using storage. */

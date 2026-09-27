@@ -1,5 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+  FileText,
   GripVertical,
   Heading1,
   Heading2,
@@ -35,6 +36,7 @@ import {
   HEADER_MAX_WIDTH,
   PHOTO_MAX_WIDTH,
   uploadPostImage,
+  uploadPostPdf,
 } from "@/lib/posts/media";
 import {
   ALBUM_MAX_PHOTOS,
@@ -53,6 +55,7 @@ const PALETTE: { type: PostBlockType; icon: typeof Text }[] = [
   { type: "photo", icon: ImageIcon },
   { type: "album", icon: Images },
   { type: "video", icon: Video },
+  { type: "pdf", icon: FileText },
   { type: "likes", icon: Heart },
 ];
 
@@ -172,6 +175,20 @@ export function PostsManager({ userId, isAdmin, groupId }: Props) {
         kind === "header" ? HEADER_MAX_WIDTH : PHOTO_MAX_WIDTH,
       );
       apply(result);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Upload failed");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function uploadPdfInto(
+    file: File,
+    apply: (result: { path: string; url: string; fileName: string }) => void,
+  ) {
+    setBusy(true);
+    try {
+      apply(await uploadPostPdf(file, groupId));
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Upload failed");
     } finally {
@@ -440,6 +457,7 @@ export function PostsManager({ userId, isAdmin, groupId }: Props) {
                         busy={busy}
                         onChange={(changes) => updateBlock(block.id, changes)}
                         onUpload={(file, apply) => uploadInto("photo", file, apply)}
+                        onUploadPdf={uploadPdfInto}
                       />
                     </div>
                   </div>
@@ -514,9 +532,13 @@ type BlockEditorProps = {
   busy: boolean;
   onChange: (changes: Record<string, unknown>) => void;
   onUpload: (file: File, apply: (result: { path: string; url: string }) => void) => void;
+  onUploadPdf: (
+    file: File,
+    apply: (result: { path: string; url: string; fileName: string }) => void,
+  ) => void;
 };
 
-function BlockEditor({ block, busy, onChange, onUpload }: BlockEditorProps) {
+function BlockEditor({ block, busy, onChange, onUpload, onUploadPdf }: BlockEditorProps) {
   if (block.type === "heading" || block.type === "subheading") {
     return (
       <Input
@@ -563,6 +585,44 @@ function BlockEditor({ block, busy, onChange, onUpload }: BlockEditorProps) {
         />
         <p className="text-xs text-muted-foreground">
           Videos are linked, not uploaded, so they use no storage.
+        </p>
+      </div>
+    );
+  }
+
+  if (block.type === "pdf") {
+    return (
+      <div className="grid gap-2">
+        <Input
+          type="file"
+          accept="application/pdf"
+          disabled={busy}
+          onChange={(event) => {
+            const file = event.target.files?.[0];
+            event.target.value = "";
+            if (!file) return;
+            const previous = block.path;
+            onUploadPdf(file, ({ path, url, fileName }) => {
+              onChange({ path, url, fileName });
+              void deletePostImage(previous);
+            });
+          }}
+        />
+        {block.fileName ? (
+          <p className="truncate text-xs text-muted-foreground">Uploaded: {block.fileName}</p>
+        ) : null}
+        <Input
+          value={block.title ?? ""}
+          onChange={(event) => onChange({ title: event.target.value })}
+          placeholder="Document title (optional)"
+        />
+        <Input
+          value={block.caption ?? ""}
+          onChange={(event) => onChange({ caption: event.target.value })}
+          placeholder="Caption (optional)"
+        />
+        <p className="text-xs text-muted-foreground">
+          PDF files up to 15 MB. Readers scroll it inside a wide frame on the post.
         </p>
       </div>
     );

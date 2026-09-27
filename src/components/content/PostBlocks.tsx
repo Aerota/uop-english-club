@@ -1,4 +1,4 @@
-import { Heart } from "lucide-react";
+import { ExternalLink, Heart } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -95,6 +95,17 @@ export function PostBlocks({
                 <figcaption className="mt-2 text-sm text-muted-foreground">{block.caption}</figcaption>
               ) : null}
             </figure>
+          );
+        }
+        if (block.type === "pdf") {
+          if (!block.url) return null;
+          return (
+            <PdfViewer
+              key={block.id}
+              url={block.url}
+              title={block.title ?? block.fileName ?? "Document"}
+              caption={block.caption ?? null}
+            />
           );
         }
         return <LikeSection key={block.id} label={block.label} postId={postId} likes={likes} />;

@@ -15,6 +15,15 @@ export type PostBlock =
   | ({ id: string; type: "photo" } & PostImage)
   | { id: string; type: "album"; images: PostImage[] }
   | { id: string; type: "video"; url: string; caption?: string | null }
+  | {
+      id: string;
+      type: "pdf";
+      path?: string | null;
+      url?: string | null;
+      fileName?: string | null;
+      title?: string | null;
+      caption?: string | null;
+    }
   | { id: string; type: "likes"; label: string };
 
 export type PostBlockType = PostBlock["type"];
@@ -45,10 +54,12 @@ export const BLOCK_LABELS: Record<PostBlockType, string> = {
   photo: "Photo",
   album: "Photo album",
   video: "Video",
+  pdf: "PDF document",
   likes: "Like section",
 };
 
 export const ALBUM_MAX_PHOTOS = 10;
+export const PDF_MAX_BYTES = 15 * 1024 * 1024;
 
 export function newBlock(type: PostBlockType): PostBlock {
   const id = crypto.randomUUID();
@@ -65,6 +76,8 @@ export function newBlock(type: PostBlockType): PostBlock {
       return { id, type, images: [] };
     case "video":
       return { id, type, url: "", caption: "" };
+    case "pdf":
+      return { id, type, path: null, url: null, fileName: null, title: "", caption: "" };
     case "likes":
       return { id, type, label: "Did you enjoy our work?" };
   }
