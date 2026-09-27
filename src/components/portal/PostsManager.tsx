@@ -590,6 +590,44 @@ function BlockEditor({ block, busy, onChange, onUpload, onUploadPdf }: BlockEdit
     );
   }
 
+  if (block.type === "pdf") {
+    return (
+      <div className="grid gap-2">
+        <Input
+          type="file"
+          accept="application/pdf"
+          disabled={busy}
+          onChange={(event) => {
+            const file = event.target.files?.[0];
+            event.target.value = "";
+            if (!file) return;
+            const previous = block.path;
+            onUploadPdf(file, ({ path, url, fileName }) => {
+              onChange({ path, url, fileName });
+              void deletePostImage(previous);
+            });
+          }}
+        />
+        {block.fileName ? (
+          <p className="truncate text-xs text-muted-foreground">Uploaded: {block.fileName}</p>
+        ) : null}
+        <Input
+          value={block.title ?? ""}
+          onChange={(event) => onChange({ title: event.target.value })}
+          placeholder="Document title (optional)"
+        />
+        <Input
+          value={block.caption ?? ""}
+          onChange={(event) => onChange({ caption: event.target.value })}
+          placeholder="Caption (optional)"
+        />
+        <p className="text-xs text-muted-foreground">
+          PDF files up to 15 MB. Readers scroll it inside a wide frame on the post.
+        </p>
+      </div>
+    );
+  }
+
   if (block.type === "photo") {
     return (
       <div className="grid gap-2">
