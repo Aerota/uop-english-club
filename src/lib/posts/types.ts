@@ -54,10 +54,12 @@ export const BLOCK_LABELS: Record<PostBlockType, string> = {
   photo: "Photo",
   album: "Photo album",
   video: "Video",
+  pdf: "PDF document",
   likes: "Like section",
 };
 
 export const ALBUM_MAX_PHOTOS = 10;
+export const PDF_MAX_BYTES = 15 * 1024 * 1024;
 
 export function newBlock(type: PostBlockType): PostBlock {
   const id = crypto.randomUUID();
