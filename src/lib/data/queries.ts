@@ -50,6 +50,7 @@ export const postsQuery = queryOptions({
 
 function collectBlockPaths(block: PostBlock, out: string[]) {
   if (block.type === "photo" && isStoredPostPath(block.path)) out.push(block.path);
+  if (block.type === "pdf" && isStoredPostPath(block.path)) out.push(block.path);
   if (block.type === "album") {
     for (const image of block.images ?? []) {
       if (isStoredPostPath(image.path)) out.push(image.path);
@@ -58,7 +59,7 @@ function collectBlockPaths(block: PostBlock, out: string[]) {
 }
 
 function resolveBlock(block: PostBlock, signed: Record<string, string>): PostBlock {
-  if (block.type === "photo") {
+  if (block.type === "photo" || block.type === "pdf") {
     return {
       ...block,
       url: isStoredPostPath(block.path) ? (signed[block.path] ?? null) : (block.url ?? null),
