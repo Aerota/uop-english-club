@@ -1,5 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+  FileText,
   GripVertical,
   Heading1,
   Heading2,
@@ -35,6 +36,7 @@ import {
   HEADER_MAX_WIDTH,
   PHOTO_MAX_WIDTH,
   uploadPostImage,
+  uploadPostPdf,
 } from "@/lib/posts/media";
 import {
   ALBUM_MAX_PHOTOS,
@@ -53,6 +55,7 @@ const PALETTE: { type: PostBlockType; icon: typeof Text }[] = [
   { type: "photo", icon: ImageIcon },
   { type: "album", icon: Images },
   { type: "video", icon: Video },
+  { type: "pdf", icon: FileText },
   { type: "likes", icon: Heart },
 ];
 
