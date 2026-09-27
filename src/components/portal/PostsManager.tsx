@@ -182,6 +182,20 @@ export function PostsManager({ userId, isAdmin, groupId }: Props) {
     }
   }
 
+  async function uploadPdfInto(
+    file: File,
+    apply: (result: { path: string; url: string; fileName: string }) => void,
+  ) {
+    setBusy(true);
+    try {
+      apply(await uploadPostPdf(file, groupId));
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Upload failed");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   async function save(status: "draft" | "published") {
     if (!draft) return;
     if (!draft.activityId) {
