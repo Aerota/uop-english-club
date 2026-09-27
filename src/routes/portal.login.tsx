@@ -60,7 +60,7 @@ function LoginPage() {
           </span>
           <h1 className="mt-5 text-2xl font-semibold">Team sign in</h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            For the five group accounts and the admin account of 5-10 Group AB.
+            For the six group accounts (Groups 5–10) and the admin account of 5-10 Group AB.
           </p>
           <form onSubmit={handleSubmit} className="mt-7 space-y-4">
             <div>
