@@ -457,6 +457,7 @@ export function PostsManager({ userId, isAdmin, groupId }: Props) {
                         busy={busy}
                         onChange={(changes) => updateBlock(block.id, changes)}
                         onUpload={(file, apply) => uploadInto("photo", file, apply)}
+                        onUploadPdf={uploadPdfInto}
                       />
                     </div>
                   </div>
