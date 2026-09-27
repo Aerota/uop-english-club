@@ -1,6 +1,7 @@
 /** Client-side image shrinking so stored photos stay tiny. */
 
 import { supabase } from "@/integrations/supabase/client";
+import { PDF_MAX_BYTES } from "@/lib/posts/types";
 
 const BUCKET = "posts";
 
