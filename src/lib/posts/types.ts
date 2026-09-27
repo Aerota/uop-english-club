@@ -15,6 +15,15 @@ export type PostBlock =
   | ({ id: string; type: "photo" } & PostImage)
   | { id: string; type: "album"; images: PostImage[] }
   | { id: string; type: "video"; url: string; caption?: string | null }
+  | {
+      id: string;
+      type: "pdf";
+      path?: string | null;
+      url?: string | null;
+      fileName?: string | null;
+      title?: string | null;
+      caption?: string | null;
+    }
   | { id: string; type: "likes"; label: string };
 
 export type PostBlockType = PostBlock["type"];
