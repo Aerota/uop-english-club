@@ -97,6 +97,17 @@ export function PostBlocks({
             </figure>
           );
         }
+        if (block.type === "pdf") {
+          if (!block.url) return null;
+          return (
+            <PdfViewer
+              key={block.id}
+              url={block.url}
+              title={block.title ?? block.fileName ?? "Document"}
+              caption={block.caption ?? null}
+            />
+          );
+        }
         return <LikeSection key={block.id} label={block.label} postId={postId} likes={likes} />;
       })}
     </div>
