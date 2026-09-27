@@ -76,6 +76,8 @@ export function newBlock(type: PostBlockType): PostBlock {
       return { id, type, images: [] };
     case "video":
       return { id, type, url: "", caption: "" };
+    case "pdf":
+      return { id, type, path: null, url: null, fileName: null, title: "", caption: "" };
     case "likes":
       return { id, type, label: "Did you enjoy our work?" };
   }
