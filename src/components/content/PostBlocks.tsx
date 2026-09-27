@@ -114,6 +114,46 @@ export function PostBlocks({
   );
 }
 
+/**
+ * 16:9 embedded PDF. While the pointer is over the frame the wheel scrolls
+ * the document; outside it the page scrolls as usual.
+ */
+function PdfViewer({
+  url,
+  title,
+  caption,
+}: {
+  url: string;
+  title: string;
+  caption: string | null;
+}) {
+  return (
+    <figure>
+      <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-border/70 bg-muted shadow-soft">
+        <iframe
+          src={`${url}#toolbar=0&navpanes=0&view=FitH`}
+          title={title}
+          className="size-full border-0"
+        />
+      </div>
+      <figcaption className="mt-2 flex flex-wrap items-center justify-between gap-2 text-sm text-muted-foreground">
+        <span>
+          {title}
+          {caption ? ` — ${caption}` : ""}
+        </span>
+        <a
+          href={url}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center gap-1 font-medium text-primary"
+        >
+          Open full document <ExternalLink className="size-3.5" />
+        </a>
+      </figcaption>
+    </figure>
+  );
+}
+
 const STORAGE_KEY = "post-like-key";
 
 function clientKey() {
