@@ -532,9 +532,13 @@ type BlockEditorProps = {
   busy: boolean;
   onChange: (changes: Record<string, unknown>) => void;
   onUpload: (file: File, apply: (result: { path: string; url: string }) => void) => void;
+  onUploadPdf: (
+    file: File,
+    apply: (result: { path: string; url: string; fileName: string }) => void,
+  ) => void;
 };
 
-function BlockEditor({ block, busy, onChange, onUpload }: BlockEditorProps) {
+function BlockEditor({ block, busy, onChange, onUpload, onUploadPdf }: BlockEditorProps) {
   if (block.type === "heading" || block.type === "subheading") {
     return (
       <Input
