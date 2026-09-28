@@ -74,7 +74,7 @@ function PostPage() {
       <article className="pb-20">
         {post.header_url ? (
           <div className="relative w-full">
-            <img src={post.header_url} alt="" className="h-[42vh] min-h-[240px] w-full object-cover" />
+            <img src={post.header_url} alt="" className="h-auto w-full object-contain" />
             <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background/70 to-transparent" />
           </div>
         ) : null}
