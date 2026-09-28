@@ -30,6 +30,7 @@ function GroupsPage() {
   const groups = useQuery(groupsQuery);
   const members = useQuery(membersQuery);
   const content = useQuery(contentQuery);
+  const posts = useQuery(postsQuery);
 
   return (
     <PageLayout>

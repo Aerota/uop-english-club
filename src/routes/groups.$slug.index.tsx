@@ -43,6 +43,7 @@ function GroupDetailPage() {
   const groups = useQuery(groupsQuery);
   const members = useQuery(membersQuery);
   const content = useQuery(contentQuery);
+  const posts = useQuery(postsQuery);
 
   const [committee, setCommittee] = useState<string>(ALL);
 
