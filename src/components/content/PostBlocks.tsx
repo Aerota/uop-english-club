@@ -108,7 +108,7 @@ export function PostBlocks({
             />
           );
         }
-        return <LikeSection key={block.id} label={block.label} postId={postId} likes={likes} />;
+        return <div key={block.id} id="post-reactions" className="scroll-mt-24"><LikeSection label={block.label} postId={postId} likes={likes} /></div>;
       })}
     </div>
   );

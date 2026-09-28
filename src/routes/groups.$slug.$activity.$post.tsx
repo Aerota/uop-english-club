@@ -102,9 +102,7 @@ function PostPage() {
               {post.excerpt ? <p className="mt-5 text-lg leading-relaxed text-muted-foreground">{post.excerpt}</p> : null}
               {post.header_url ? <figure className="mt-8 aspect-video overflow-hidden rounded-lg bg-muted"><img src={post.header_url} alt="" className="size-full object-cover" /></figure> : null}
               <PostBlocks blocks={post.blocks} postId={post.id} likes={post.likes_count} />
-              <div id="post-reactions" className="scroll-mt-24">
-                {!hasLikeBlock ? <div className="mt-10"><LikeSection label="Did you enjoy this post?" postId={post.id} likes={post.likes_count} /></div> : null}
-              </div>
+              {!hasLikeBlock ? <div id="post-reactions" className="mt-10 scroll-mt-24"><LikeSection label="Did you enjoy this post?" postId={post.id} likes={post.likes_count} /></div> : null}
             </div>
 
             <aside aria-label="Post details and groups" className="self-start lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
