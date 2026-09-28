@@ -4,7 +4,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import groupWorkImg from "@/assets/group-work.jpg";
 import { PageHero, PageLayout } from "@/components/layout/PageLayout";
 import { Badge } from "@/components/ui/badge";
-import { contentQuery, groupsQuery, membersQuery } from "@/lib/data/queries";
+import { contentQuery, groupsQuery, membersQuery, postsQuery } from "@/lib/data/queries";
 
 
 export const Route = createFileRoute("/groups/")({

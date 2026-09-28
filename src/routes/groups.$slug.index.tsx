@@ -15,7 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { contentQuery, groupsQuery, membersQuery } from "@/lib/data/queries";
+import { contentQuery, groupsQuery, membersQuery, postsQuery } from "@/lib/data/queries";
 
 export const Route = createFileRoute("/groups/$slug/")({
   head: () => ({
