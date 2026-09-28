@@ -106,7 +106,6 @@ function PostPage() {
               </div>
               <h1 className="mt-4 break-words font-display text-3xl font-semibold leading-tight md:text-5xl">{post.title}</h1>
               {post.excerpt ? <p className="mt-5 text-lg leading-relaxed text-muted-foreground">{post.excerpt}</p> : null}
-              {post.header_url ? <figure className="mt-8 aspect-video overflow-hidden rounded-lg bg-muted"><img src={post.header_url} alt="" className="size-full object-cover" /></figure> : null}
               <PostBlocks blocks={post.blocks} postId={post.id} likes={post.likes_count} />
               {!hasLikeBlock ? <div id="post-reactions" className="mt-10 scroll-mt-24"><LikeSection label="Did you enjoy this post?" postId={post.id} likes={post.likes_count} /></div> : null}
             </div>
