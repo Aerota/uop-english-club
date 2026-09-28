@@ -72,6 +72,12 @@ function PostPage() {
   return (
     <PageLayout>
       <article className="pb-20">
+        {post.header_url ? (
+          <div className="relative w-full">
+            <img src={post.header_url} alt="" className="h-[42vh] max-h-[560px] min-h-[240px] w-full object-cover" />
+            <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background/70 to-transparent" />
+          </div>
+        ) : null}
         <div className="section-shell pt-6 sm:pt-9">
           <Link to="/groups/$slug" params={{ slug: group.slug }} className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-primary">
             <ArrowLeft className="size-4" /> {group.name}
@@ -100,7 +106,6 @@ function PostPage() {
               </div>
               <h1 className="mt-4 break-words font-display text-3xl font-semibold leading-tight md:text-5xl">{post.title}</h1>
               {post.excerpt ? <p className="mt-5 text-lg leading-relaxed text-muted-foreground">{post.excerpt}</p> : null}
-              {post.header_url ? <figure className="mt-8 aspect-video overflow-hidden rounded-lg bg-muted"><img src={post.header_url} alt="" className="size-full object-cover" /></figure> : null}
               <PostBlocks blocks={post.blocks} postId={post.id} likes={post.likes_count} />
               {!hasLikeBlock ? <div id="post-reactions" className="mt-10 scroll-mt-24"><LikeSection label="Did you enjoy this post?" postId={post.id} likes={post.likes_count} /></div> : null}
             </div>
