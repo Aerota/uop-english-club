@@ -72,6 +72,12 @@ function PostPage() {
   return (
     <PageLayout>
       <article className="pb-20">
+        {post.header_url ? (
+          <div className="relative w-full">
+            <img src={post.header_url} alt="" className="h-[42vh] max-h-[560px] min-h-[240px] w-full object-cover" />
+            <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background/70 to-transparent" />
+          </div>
+        ) : null}
         <div className="section-shell pt-6 sm:pt-9">
           <Link to="/groups/$slug" params={{ slug: group.slug }} className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-primary">
             <ArrowLeft className="size-4" /> {group.name}
