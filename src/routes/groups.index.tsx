@@ -4,7 +4,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import groupWorkImg from "@/assets/group-work.jpg";
 import { PageHero, PageLayout } from "@/components/layout/PageLayout";
 import { Badge } from "@/components/ui/badge";
-import { contentQuery, groupsQuery, membersQuery } from "@/lib/data/queries";
+import { contentQuery, groupsQuery, membersQuery, postsQuery } from "@/lib/data/queries";
 
 
 export const Route = createFileRoute("/groups/")({
@@ -30,6 +30,7 @@ function GroupsPage() {
   const groups = useQuery(groupsQuery);
   const members = useQuery(membersQuery);
   const content = useQuery(contentQuery);
+  const posts = useQuery(postsQuery);
 
   return (
     <PageLayout>
@@ -41,7 +42,7 @@ function GroupsPage() {
         imageAlt="Students working together on an English group activity"
       />
 
-      <section className="section-shell grid gap-6 py-16 sm:grid-cols-2 lg:grid-cols-3"> {(groups.data ?? []).map((group) => { const memberCount = (members.data ?? []).filter((m) => m.group_id === group.id).length; const uploadCount = (content.data ?? []).filter((c) => c.group_id === group.id).length; return ( <Link key={group.id} to="/groups/$slug" params={{ slug: group.slug }} className="rounded-2xl border border-border/70 bg-card p-6 shadow-soft transition-shadow hover:shadow-lift" > <p className="eyebrow">{group.tagline}</p> <h2 className="mt-3 font-display text-xl font-semibold">{group.name}</h2> <p className="mt-3 line-clamp-3 text-sm text-muted-foreground"> {group.description} </p> <div className="mt-5 flex gap-2"> <Badge variant="secondary">{memberCount} members</Badge> <Badge variant="outline">{uploadCount} uploads</Badge> </div> </Link> ); })} </section>
+      <section className="section-shell grid gap-6 py-16 sm:grid-cols-2 lg:grid-cols-3"> {(groups.data ?? []).map((group) => { const memberCount = (members.data ?? []).filter((m) => m.group_id === group.id).length; const uploadCount = (content.data ?? []).filter((c) => c.group_id === group.id).length; const postCount = (posts.data ?? []).filter((p) => p.group_id === group.id && p.status === "published").length; return ( <Link key={group.id} to="/groups/$slug" params={{ slug: group.slug }} className="rounded-2xl border border-border/70 bg-card p-6 shadow-soft transition-shadow hover:shadow-lift" > <p className="eyebrow">{group.tagline}</p> <h2 className="mt-3 font-display text-xl font-semibold">{group.name}</h2> <p className="mt-3 line-clamp-3 text-sm text-muted-foreground"> {group.description} </p> <div className="mt-5 flex gap-2"> <Badge variant="secondary">{postCount} posts</Badge> <Badge variant="secondary">{memberCount} members</Badge> <Badge variant="outline">{uploadCount} uploads</Badge> </div> </Link> ); })} </section>
     </PageLayout>
   );
 }

@@ -15,7 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { contentQuery, groupsQuery, membersQuery } from "@/lib/data/queries";
+import { contentQuery, groupsQuery, membersQuery, postsQuery } from "@/lib/data/queries";
 
 export const Route = createFileRoute("/groups/$slug/")({
   head: () => ({
@@ -43,6 +43,7 @@ function GroupDetailPage() {
   const groups = useQuery(groupsQuery);
   const members = useQuery(membersQuery);
   const content = useQuery(contentQuery);
+  const posts = useQuery(postsQuery);
 
   const [committee, setCommittee] = useState<string>(ALL);
 
@@ -71,6 +72,9 @@ function GroupDetailPage() {
 
   const groupMembers = (members.data ?? []).filter((m) => m.group_id === group.id);
   const groupContent = (content.data ?? []).filter((c) => c.group_id === group.id);
+  const groupPosts = (posts.data ?? []).filter(
+    (p) => p.group_id === group.id && p.status === "published",
+  );
   const hasCover = Boolean(group.cover_url || group.mobile_cover_url);
 
   const committees = Array.from(
@@ -132,6 +136,7 @@ function GroupDetailPage() {
             {group.description}
           </p>
           <div className="mt-6 flex gap-2">
+            <Badge variant="secondary">{groupPosts.length} posts</Badge>
             <Badge variant="secondary">{groupContent.length} uploads</Badge>
             <Badge variant="secondary">{groupMembers.length} members</Badge>
           </div>
