@@ -15,6 +15,7 @@
 - [ ] Re-add teachers' panel members (Panels section)
 
 ## Activity posts (blog-style updates)
+- [x] Add sticky post navigation and content stats/group panels to public post pages
 - [x] Rename Assignments to Creative Corner
 - [x] Posts table, likes table, permissions and private media bucket
 - [x] Posts Manager in the portal (blocks, reorder, draft/publish, image compression, video links)
