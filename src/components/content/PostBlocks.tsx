@@ -20,14 +20,14 @@ export function PostBlocks({
       {blocks.map((block) => {
         if (block.type === "heading") {
           return (
-            <h2 key={block.id} className="font-display text-2xl font-semibold md:text-3xl">
+            <h2 key={block.id} id={`section-${block.id}`} className="scroll-mt-24 font-display text-2xl font-semibold md:text-3xl">
               {block.text}
             </h2>
           );
         }
         if (block.type === "subheading") {
           return (
-            <h3 key={block.id} className="font-display text-xl font-semibold">
+            <h3 key={block.id} id={`section-${block.id}`} className="scroll-mt-24 font-display text-xl font-semibold">
               {block.text}
             </h3>
           );
@@ -108,7 +108,7 @@ export function PostBlocks({
             />
           );
         }
-        return <LikeSection key={block.id} label={block.label} postId={postId} likes={likes} />;
+        return <div key={block.id} id="post-reactions" className="scroll-mt-24"><LikeSection label={block.label} postId={postId} likes={likes} /></div>;
       })}
     </div>
   );
