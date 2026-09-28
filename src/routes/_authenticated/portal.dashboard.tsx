@@ -1,14 +1,12 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import {
-  BookOpenText,
   Camera,
   Images,
   LayoutDashboard,
   LogOut,
   Newspaper,
   Settings,
-  Tags,
   UserRoundCog,
   Users,
 } from "lucide-react";
@@ -17,9 +15,7 @@ import { useEffect, useState } from "react";
 
 import { PageLayout } from "@/components/layout/PageLayout";
 import { AccountSettings } from "@/components/portal/AccountSettings";
-import { ActivityNamesManager } from "@/components/portal/ActivityNamesManager";
 import { ActivityTypesManager } from "@/components/portal/ActivityTypesManager";
-import { ContentManager } from "@/components/portal/ContentManager";
 import { GalleryManager } from "@/components/portal/GalleryManager";
 import { GroupDetailsForm } from "@/components/portal/GroupDetailsForm";
 import { MembersManager } from "@/components/portal/MembersManager";
@@ -45,12 +41,12 @@ export const Route = createFileRoute("/_authenticated/portal/dashboard")({
       { title: "Portal Dashboard — 5-10 Group AB" },
       {
         name: "description",
-        content: "Manage group details, members, activities, uploads, and galleries.",
+        content: "Manage group details, members, posts, and galleries.",
       },
       { property: "og:title", content: "Portal Dashboard — 5-10 Group AB" },
       {
         property: "og:description",
-        content: "Manage group details, members, activities, uploads, and galleries.",
+        content: "Manage group details, members, posts, and galleries.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -106,10 +102,8 @@ function DashboardPage() {
 
   const groupSections = [
     { value: "posts", label: "Posts", icon: Newspaper },
-    { value: "content", label: "Content", icon: BookOpenText },
     { value: "group", label: "Group details", icon: LayoutDashboard },
     { value: "members", label: "Members", icon: Users },
-    { value: "activity-names", label: "Activity names", icon: Tags },
     { value: "gallery", label: "Gallery", icon: Images },
   ];
 
@@ -122,7 +116,7 @@ function DashboardPage() {
     ...(isAdmin ? adminSections : []),
     { value: "account", label: "Account", icon: Settings },
   ];
-  const activeLabel = sections.find((item) => item.value === section)?.label ?? "Content";
+  const activeLabel = sections.find((item) => item.value === section)?.label ?? "Posts";
 
   return (
     <PageLayout>
@@ -212,11 +206,6 @@ function DashboardPage() {
             {selectedGroupId ? <PostsManager key={selectedGroupId} userId={userId} isAdmin={isAdmin} groupId={selectedGroupId} /> : null}
           </TabsContent>
 
-          <TabsContent value="content" className="mt-6">
-            {selectedGroupId ? <ContentManager key={selectedGroupId} userId={userId} isAdmin={isAdmin} groupId={selectedGroupId} /> : null}
-          </TabsContent>
-
-
           {selectedGroup ? (
             <TabsContent value="group" className="mt-6">
               <GroupDetailsForm key={selectedGroup.id} group={selectedGroup} />
@@ -228,10 +217,6 @@ function DashboardPage() {
               <MembersManager key={selectedGroupId} groupId={selectedGroupId} />
             </TabsContent>
           ) : null}
-
-          <TabsContent value="activity-names" className="mt-6">
-            {selectedGroupId ? <ActivityNamesManager key={selectedGroupId} groupId={selectedGroupId} /> : null}
-          </TabsContent>
 
           {isAdmin ? <TabsContent value="activity-types" className="mt-6"><ActivityTypesManager /></TabsContent> : null}
 
