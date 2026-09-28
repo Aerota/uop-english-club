@@ -4,6 +4,7 @@
 - [x] Redesign dashboard navigation and mobile layout
 - [x] Add admin group selector for group-specific editing
 - [x] Add admin activity type label editing
+- [x] Remove Content and Activity names panels from admin and group workspaces without deleting their data
 - [x] Verify desktop and mobile portal flows (all sections, no console errors, no mobile overflow)
 
 ## After the remix (new backend)
