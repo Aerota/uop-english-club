@@ -27,6 +27,8 @@ export const Route = createFileRoute("/groups/$slug/")({
           "Uploaded work, members and details of a group in the 5-10 Group AB English language program.",
       },
       { property: "og:title", content: "Group — 5-10 Group AB" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       {
         property: "og:description",
         content: "See the submissions, members and description of this English program group.",

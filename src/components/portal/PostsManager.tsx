@@ -19,6 +19,12 @@ import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -98,6 +104,7 @@ export function PostsManager({ userId, isAdmin, groupId }: Props) {
   const [draft, setDraft] = useState<Draft | null>(null);
   const [busy, setBusy] = useState(false);
   const [dropIndex, setDropIndex] = useState<number | null>(null);
+  const [dragging, setDragging] = useState(false);
   const dragRef = useRef<{ kind: "new"; type: PostBlockType } | { kind: "move"; index: number } | null>(
     null,
   );
@@ -161,6 +168,7 @@ export function PostsManager({ userId, isAdmin, groupId }: Props) {
     const payload = dragRef.current;
     dragRef.current = null;
     setDropIndex(null);
+    setDragging(false);
     if (!payload) return;
     if (payload.kind === "new") insertAt(newBlock(payload.type), index);
     else moveBlock(payload.index, index);
@@ -250,19 +258,48 @@ export function PostsManager({ userId, isAdmin, groupId }: Props) {
 
   const dropZone = (index: number) => (
     <div
+      key={`insert-${index}`}
       onDragOver={(event) => {
+        if (!dragRef.current) return;
         event.preventDefault();
+        event.dataTransfer.dropEffect = dragRef.current.kind === "new" ? "copy" : "move";
         setDropIndex(index);
       }}
-      onDragLeave={() => setDropIndex((current) => (current === index ? null : current))}
+      onDragLeave={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget as Node)) {
+          setDropIndex((current) => (current === index ? null : current));
+        }
+      }}
       onDrop={(event) => {
         event.preventDefault();
         handleDrop(index);
       }}
-      className={`rounded-full transition-all ${
-        dropIndex === index ? "my-2 h-2 bg-primary" : "my-1 h-2 bg-transparent"
+      className={`group relative flex items-center justify-center transition-all ${
+        dragging ? "min-h-14 py-2" : "min-h-8 py-1"
       }`}
-    />
+    >
+      <div className={`absolute inset-x-1 top-1/2 border-t transition-colors ${dropIndex === index ? "border-primary" : "border-transparent group-hover:border-border"}`} />
+      {dragging ? (
+        <span className={`relative z-10 rounded-md border border-dashed px-3 py-2 text-xs font-medium transition-colors ${dropIndex === index ? "border-primary bg-primary-soft text-primary" : "border-border bg-card text-muted-foreground"}`}>
+          Drop here
+        </span>
+      ) : (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button type="button" size="icon" variant="outline" className="relative z-10 size-7 bg-card opacity-70 transition-opacity hover:opacity-100 focus-visible:opacity-100" aria-label={`Add block at position ${index + 1}`} title="Add block here">
+              <Plus className="size-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="center" className="w-48">
+            {PALETTE.map(({ type, icon: Icon }) => (
+              <DropdownMenuItem key={type} onSelect={() => insertAt(newBlock(type), index)}>
+                <Icon className="size-4" /> {BLOCK_LABELS[type]}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )}
+    </div>
   );
 
   if (draft) {
@@ -373,51 +410,79 @@ export function PostsManager({ userId, isAdmin, groupId }: Props) {
             </div>
           </div>
 
-          <div className="mt-8 lg:grid lg:grid-cols-[13rem_minmax(0,1fr)] lg:gap-6">
-            <div>
-              <p className="text-sm font-semibold">Content blocks</p>
-              <p className="mt-1 text-xs text-muted-foreground">
-                Drag a block into the post, or tap to add it at the end.
-              </p>
-              <div className="mt-3 grid grid-cols-2 gap-2 lg:grid-cols-1">
+           <div className="mt-8 lg:grid lg:grid-cols-[12rem_minmax(0,1fr)] lg:items-start lg:gap-6">
+             <aside className="lg:sticky lg:top-6 lg:max-h-[calc(100dvh-3rem)] lg:overflow-y-auto" aria-label="Post blocks">
+               <p className="text-sm font-semibold">Blocks</p>
+               <p className="mt-1 text-xs text-muted-foreground">
+                 Drag into the post, or use + to insert anywhere.
+               </p>
+               <div className="mt-3 grid grid-cols-2 gap-2 lg:grid-cols-1">
                 {PALETTE.map(({ type, icon: Icon }) => (
-                  <button
+                   <Button
                     key={type}
                     type="button"
+                     variant="outline"
                     draggable
-                    onDragStart={() => {
+                     onDragStart={(event) => {
                       dragRef.current = { kind: "new", type };
+                       event.dataTransfer.effectAllowed = "copy";
+                       event.dataTransfer.setData("text/plain", type);
+                       setDragging(true);
                     }}
+                     onDragEnd={() => { dragRef.current = null; setDropIndex(null); setDragging(false); }}
                     onClick={() => insertAt(newBlock(type), draft.blocks.length)}
-                    className="flex items-center gap-2 rounded-lg border border-border/70 bg-card px-3 py-2 text-left text-sm shadow-soft transition-colors hover:bg-primary-soft/60"
+                     className="h-11 min-w-0 justify-start gap-2 bg-card px-3 text-left whitespace-normal hover:bg-primary-soft/60 active:cursor-grabbing lg:cursor-grab"
+                     title={`Drag ${BLOCK_LABELS[type]} into the post, or click to add at the end`}
                   >
-                    <Icon className="size-4 text-primary" /> {BLOCK_LABELS[type]}
-                  </button>
+                     <Icon className="size-4 shrink-0 text-primary" /> <span className="min-w-0 text-xs leading-tight">{BLOCK_LABELS[type]}</span>
+                   </Button>
                 ))}
               </div>
-            </div>
+             </aside>
 
-            <div className="mt-6 rounded-xl border border-dashed border-border bg-secondary/30 p-3 lg:mt-0">
+             <div className="mt-6 min-w-0 rounded-lg border border-dashed border-border bg-secondary/30 p-3 lg:mt-0">
               {draft.blocks.length === 0 ? (
-                <p className="py-10 text-center text-sm text-muted-foreground">
-                  Drop blocks here to build the post.
+                 <p className="px-3 pt-8 text-center text-sm text-muted-foreground">
+                   Drag a block here to start your post.
                 </p>
               ) : null}
 
               {dropZone(0)}
               {draft.blocks.map((block, index) => (
                 <div key={block.id}>
-                  <div
-                    draggable
-                    onDragStart={() => {
-                      dragRef.current = { kind: "move", index };
-                    }}
-                    className="rounded-lg border border-border/70 bg-card p-3 shadow-soft"
-                  >
+                   <div
+                     className="rounded-lg border border-border/70 bg-card p-3 shadow-soft"
+                     onDragOver={(event) => {
+                       if (!dragRef.current) return;
+                       event.preventDefault();
+                       event.dataTransfer.dropEffect = dragRef.current.kind === "new" ? "copy" : "move";
+                       const middle = event.currentTarget.getBoundingClientRect().top + event.currentTarget.getBoundingClientRect().height / 2;
+                       setDropIndex(event.clientY < middle ? index : index + 1);
+                     }}
+                     onDrop={(event) => {
+                       event.preventDefault();
+                       event.stopPropagation();
+                       const middle = event.currentTarget.getBoundingClientRect().top + event.currentTarget.getBoundingClientRect().height / 2;
+                       handleDrop(event.clientY < middle ? index : index + 1);
+                     }}
+                   >
                     <div className="flex items-center justify-between gap-2">
-                      <span className="flex items-center gap-2 text-xs font-semibold text-muted-foreground">
-                        <GripVertical className="size-4 cursor-grab" /> {BLOCK_LABELS[block.type]}
-                      </span>
+                       <div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground">
+                         <span
+                           draggable
+                           onDragStart={(event) => {
+                             dragRef.current = { kind: "move", index };
+                             event.dataTransfer.effectAllowed = "move";
+                             event.dataTransfer.setData("text/plain", block.id);
+                             setDragging(true);
+                           }}
+                           onDragEnd={() => { dragRef.current = null; setDropIndex(null); setDragging(false); }}
+                           className="inline-flex size-8 cursor-grab items-center justify-center rounded-md border border-border bg-secondary active:cursor-grabbing"
+                           aria-label={`Drag to reorder ${BLOCK_LABELS[block.type]}`}
+                           title="Drag to reorder"
+                         ><GripVertical className="size-4" /></span>
+                         {BLOCK_LABELS[block.type]}
+                       </div>
                       <div className="flex gap-1">
                         <Button
                           type="button"
@@ -425,6 +490,8 @@ export function PostsManager({ userId, isAdmin, groupId }: Props) {
                           size="sm"
                           onClick={() => moveBlock(index, Math.max(0, index - 1))}
                           disabled={index === 0}
+                           aria-label="Move block up"
+                           title="Move up"
                         >
                           ↑
                         </Button>
@@ -434,6 +501,8 @@ export function PostsManager({ userId, isAdmin, groupId }: Props) {
                           size="sm"
                           onClick={() => moveBlock(index, Math.min(draft.blocks.length, index + 2))}
                           disabled={index === draft.blocks.length - 1}
+                           aria-label="Move block down"
+                           title="Move down"
                         >
                           ↓
                         </Button>
@@ -445,6 +514,7 @@ export function PostsManager({ userId, isAdmin, groupId }: Props) {
                             setBlocks((blocks) => blocks.filter((item) => item.id !== block.id))
                           }
                           aria-label="Remove block"
+                           title="Remove block"
                         >
                           <Trash2 className="size-4" />
                         </Button>

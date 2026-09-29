@@ -19,6 +19,8 @@ export const Route = createFileRoute("/about")({
           "The teachers' panel of English and the web committee of 5-10 Group AB, Faculty of Engineering, University of Peradeniya.",
       },
       { property: "og:title", content: "About & Panels — 5-10 Group AB" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       {
         property: "og:description",
         content:
