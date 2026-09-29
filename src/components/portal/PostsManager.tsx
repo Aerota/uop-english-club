@@ -450,7 +450,22 @@ export function PostsManager({ userId, isAdmin, groupId }: Props) {
               {dropZone(0)}
               {draft.blocks.map((block, index) => (
                 <div key={block.id}>
-                   <div className="rounded-lg border border-border/70 bg-card p-3 shadow-soft">
+                   <div
+                     className="rounded-lg border border-border/70 bg-card p-3 shadow-soft"
+                     onDragOver={(event) => {
+                       if (!dragRef.current) return;
+                       event.preventDefault();
+                       event.dataTransfer.dropEffect = dragRef.current.kind === "new" ? "copy" : "move";
+                       const middle = event.currentTarget.getBoundingClientRect().top + event.currentTarget.getBoundingClientRect().height / 2;
+                       setDropIndex(event.clientY < middle ? index : index + 1);
+                     }}
+                     onDrop={(event) => {
+                       event.preventDefault();
+                       event.stopPropagation();
+                       const middle = event.currentTarget.getBoundingClientRect().top + event.currentTarget.getBoundingClientRect().height / 2;
+                       handleDrop(event.clientY < middle ? index : index + 1);
+                     }}
+                   >
                     <div className="flex items-center justify-between gap-2">
                        <div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground">
                          <span
