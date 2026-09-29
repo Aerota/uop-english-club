@@ -17,6 +17,8 @@ export const Route = createFileRoute("/groups/")({
           "The six groups of the 5-10 Group AB English language program at the Faculty of Engineering, University of Peradeniya.",
       },
       { property: "og:title", content: "Our Groups — 5-10 Group AB" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       {
         property: "og:description",
         content: "Meet the six groups and see the work each one has published.",

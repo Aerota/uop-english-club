@@ -35,6 +35,8 @@ export const Route = createFileRoute("/")({
           "The Foundation Course in English at the Faculty of Engineering, University of Peradeniya is a preparatory programme designed to equip students with the essential English language skills required for their undergraduate engineering studies.",
       },
       { property: "og:title", content: "Foundation Course in English 25/26" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       {
         property: "og:description",
         content:

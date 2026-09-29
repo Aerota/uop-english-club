@@ -20,6 +20,8 @@ export const Route = createFileRoute("/portal/login")({
       { name: "description", content: "Private sign-in for 5-10 Group AB team accounts." },
       { name: "robots", content: "noindex, nofollow" },
       { property: "og:title", content: "Team Sign In — 5-10 Group AB" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       { property: "og:description", content: "Private sign-in for team accounts." },
     ],
   }),
