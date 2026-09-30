@@ -16,6 +16,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { contentQuery, groupsQuery, membersQuery, postsQuery } from "@/lib/data/queries";
+import { groupTheme } from "@/lib/theme/palette";
+
 
 export const Route = createFileRoute("/groups/$slug/")({
   head: () => ({
