@@ -89,6 +89,7 @@ export function GroupActivities({ groupId, groupSlug }: { groupId: string; group
                 posts={activityPosts}
                 groupSlug={groupSlug}
                 activitySlug={activity.slug}
+                activityTitle={activity.title}
               />
 
               {items.length === 0 ? null : grouped ? (
@@ -104,9 +105,10 @@ export function GroupActivities({ groupId, groupSlug }: { groupId: string; group
                       key={topic}
                       type="button"
                       onClick={() => setOpenBox({ name: topic, items: boxItems })}
-                      className="border-beam-hover relative flex flex-col items-center justify-center gap-2 rounded-2xl border border-border/70 bg-card p-6 shadow-soft transition-all hover:-translate-y-1 hover:shadow-lg"
+                      className={`theme-surface relative flex flex-col items-center justify-center gap-2 rounded-2xl border bg-card p-6 shadow-soft hover:-translate-y-1 ${activityTheme(activity.slug)}`}
 
                     >
+
                       <h3 className="text-center font-display text-lg font-semibold">{topic}</h3>
                       <p className="text-xs text-muted-foreground">
                         {boxItems.length} {boxItems.length === 1 ? "item" : "items"} — tap to view
