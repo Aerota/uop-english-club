@@ -5,6 +5,8 @@ import groupWorkImg from "@/assets/group-work.jpg";
 import { PageHero, PageLayout } from "@/components/layout/PageLayout";
 import { Badge } from "@/components/ui/badge";
 import { contentQuery, groupsQuery, membersQuery, postsQuery } from "@/lib/data/queries";
+import { groupTheme } from "@/lib/theme/palette";
+
 
 
 export const Route = createFileRoute("/groups/")({
