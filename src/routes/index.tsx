@@ -295,7 +295,7 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Timeline */}
+      {/* Timeline 
       <section className="section-shell py-20">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
@@ -321,7 +321,7 @@ function HomePage() {
             </div>
           ))}
         </div>
-      </section>
+      </section>*/}
 
       {/* Groups */}
       <section className="bg-secondary/60 py-20">
