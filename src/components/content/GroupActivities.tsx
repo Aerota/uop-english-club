@@ -18,6 +18,8 @@ import {
   postsQuery,
 } from "@/lib/data/queries";
 import type { ActivityName, ContentItem } from "@/lib/data/types";
+import { activityTheme } from "@/lib/theme/palette";
+
 
 
 /** Activity types that keep their work inside named boxes. */
