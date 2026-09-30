@@ -139,10 +139,15 @@ function GroupDetailPage() {
           >
             {group.description}
           </p>
-          <div className="mt-6 flex gap-2">
-            <Badge variant="secondary">{groupPosts.length} posts</Badge>
-            <Badge variant="secondary">{groupMembers.length} members</Badge>
+          <div className={`mt-6 flex gap-2 ${groupTheme(group.slug)}`}>
+              <span className="theme-chip rounded-full px-3 py-1 text-xs font-semibold">
+                {groupPosts.length} posts
+              </span>
+              <span className="theme-chip rounded-full px-3 py-1 text-xs font-semibold">
+                {groupMembers.length} members
+              </span>
           </div>
+
         </div>
       </section>
 
@@ -188,41 +193,45 @@ function GroupDetailPage() {
           ) : (
             <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {visibleMembers.map((member) => (
-                <Card key={member.id} className="border-border/70 shadow-soft">
-                  <CardContent className="pt-6">
-                    <div className="flex items-center gap-4">
-                      {member.photo_url ? (
-                        <img
-                          src={member.photo_url}
-                          alt={member.full_name}
-                          className="size-12 rounded-full object-cover"
-                          loading="lazy"
-                        />
-                      ) : (
-                        <span className="flex size-12 items-center justify-center rounded-full bg-primary-soft font-display text-sm font-semibold text-primary">
-                          {member.full_name.slice(0, 2).toUpperCase()}
-                        </span>
-                      )}
-                      <div>
-                        <p className="font-semibold">{member.full_name}</p>
-                        <p className="text-sm text-muted-foreground">
-                          {[member.role_in_group, member.registration_no]
-                            .filter(Boolean)
-                            .join(" · ")}
-                        </p>
-                      </div>
-                    </div>
-                    {member.committee ? (
-                      <Badge variant="secondary" className="mt-4">
-                        {member.committee}
-                      </Badge>
-                    ) : null}
-                    {member.bio ? (
-                      <p className="mt-4 text-sm text-muted-foreground">{member.bio}</p>
-                    ) : null}
-                  </CardContent>
-                </Card>
-              ))}
+  <Card
+    key={member.id}
+    className={`theme-surface border shadow-soft ${groupTheme(group.slug)}`}
+  >
+    <CardContent className="pt-6">
+      <div className="flex items-center gap-4">
+        {member.photo_url ? (
+          <img
+            src={member.photo_url}
+            alt={member.full_name}
+            className="size-12 rounded-full object-cover"
+            loading="lazy"
+          />
+        ) : (
+          <span className="theme-chip flex size-12 items-center justify-center rounded-full font-display text-sm font-semibold">
+            {member.full_name.slice(0, 2).toUpperCase()}
+          </span>
+        )}
+        <div>
+          <p className="font-semibold">{member.full_name}</p>
+          <p className="text-sm text-muted-foreground">
+            {[member.role_in_group, member.registration_no]
+              .filter(Boolean)
+              .join(" · ")}
+          </p>
+        </div>
+      </div>
+      {member.committee ? (
+        <span className="theme-chip mt-4 inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold">
+          {member.committee}
+        </span>
+      ) : null}
+      {member.bio ? (
+        <p className="mt-4 text-sm text-muted-foreground">{member.bio}</p>
+      ) : null}
+    </CardContent>
+  </Card>
+))}
+
             </div>
           )}
         </div>
