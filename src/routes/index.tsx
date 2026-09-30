@@ -22,7 +22,7 @@ import { HomeLoadingScreen } from "@/components/HomeLoadingScreen";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { activitiesQuery, contentQuery, groupsQuery, membersQuery } from "@/lib/data/queries";
+import { activitiesQuery, contentQuery, groupsQuery, membersQuery, panelsQuery } from "@/lib/data/queries";
 
 
 export const Route = createFileRoute("/")({
@@ -146,6 +146,8 @@ function HomePage() {
   const activities = useQuery(activitiesQuery);
   const content = useQuery(contentQuery);
   const members = useQuery(membersQuery);
+  const panels = useQuery(panelsQuery);
+  const teachers = (panels.data ?? []).filter((person) => person.panel === "teachers");
 
   return (
     <PageLayout>
@@ -356,33 +358,48 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Panel band */}
+      {/* Teachers' panel */}
       <section className="section-shell py-20">
-        <div className="grid items-center gap-12 md:grid-cols-[0.9fr_1.1fr]">
-          <div className="motion-image overflow-hidden rounded-3xl shadow-lift">
-            <img
-              src={panelImg}
-              alt="A lecturer discussing written work with students in the library"
-              loading="lazy"
-              width={1408}
-              height={912}
-              className="motion-image-target h-full w-full object-cover"
-            />
+        <div className="mx-auto max-w-2xl text-center">
+          <p className="eyebrow">Academic mentorship</p>
+          <h2 className="mt-3 text-3xl font-semibold md:text-4xl">Teachers&apos; Panel of English</h2>
+          <p className="mt-4 text-muted-foreground">
+            Meet the lecturers and instructors guiding our English language programme.
+          </p>
+        </div>
+        {panels.isPending ? (
+          <p className="mt-10 text-center text-sm text-muted-foreground">Loading the panel…</p>
+        ) : teachers.length > 0 ? (
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {teachers.map((person) => (
+              <Card key={person.id} data-motion-reveal className="motion-card border-border/70 shadow-soft">
+                <CardContent className="flex flex-col items-center px-6 py-8 text-center">
+                  {person.photo_url ? (
+                    <img
+                      src={person.photo_url}
+                      alt={person.full_name}
+                      loading="lazy"
+                      className="size-28 rounded-full border-4 border-primary/20 object-cover"
+                    />
+                  ) : (
+                    <span className="flex size-28 items-center justify-center rounded-full border-4 border-primary/20 bg-primary-soft font-display text-2xl font-semibold text-primary">
+                      {person.full_name.split(" ").map((part) => part[0]).slice(0, 2).join("")}
+                    </span>
+                  )}
+                  <h3 className="mt-5 font-display text-lg font-semibold">{person.full_name}</h3>
+                  {person.role ? <p className="mt-1 text-sm text-primary">{person.role}</p> : null}
+                  {person.bio ? <p className="mt-3 text-sm text-muted-foreground">{person.bio}</p> : null}
+                </CardContent>
+              </Card>
+            ))}
           </div>
-          <div>
-            <p className="eyebrow">Guided by our teachers</p>
-            <h2 className="mt-3 text-3xl font-semibold md:text-4xl">
-              Reviewed by the teachers&apos; panel of English
-            </h2>
-            <p className="mt-4 text-muted-foreground">
-              Every assignment and presentation published here has been guided and evaluated by
-              the lecturers and instructors of the English language program. The web committee
-              maintains the archive so nothing gets lost between semesters.
-            </p>
-            <Button asChild className="mt-8 rounded-full px-7">
-              <Link to="/about">Meet the panel &amp; committees</Link>
-            </Button>
-          </div>
+        ) : (
+          <p className="mt-10 text-center text-sm text-muted-foreground">Names will be announced soon.</p>
+        )}
+        <div className="mt-10 text-center">
+          <Button asChild variant="outline" className="rounded-full px-7">
+            <Link to="/about">Meet the panel &amp; committees</Link>
+          </Button>
         </div>
       </section>
 

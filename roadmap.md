@@ -25,5 +25,5 @@
 - [ ] Remove the "Test post one" demo post once real posts are added
 
 ## Homepage teachers’ panel
-- [ ] Replace the existing “Guided by our teachers” section with the Teachers’ Panel card layout
+- [x] Replace the existing “Guided by our teachers” section with the Teachers’ Panel card layout
 
