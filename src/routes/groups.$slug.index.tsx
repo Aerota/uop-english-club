@@ -139,7 +139,6 @@ function GroupDetailPage() {
           </p>
           <div className="mt-6 flex gap-2">
             <Badge variant="secondary">{groupPosts.length} posts</Badge>
-            <Badge variant="secondary">{groupContent.length} uploads</Badge>
             <Badge variant="secondary">{groupMembers.length} members</Badge>
           </div>
         </div>
