@@ -64,11 +64,16 @@ export function GroupActivities({ groupId, groupSlug }: { groupId: string; group
       <Tabs value={current} onValueChange={setActive} className="mt-6">
         <TabsList className="flex-wrap">
           {list.map((activity) => (
-            <TabsTrigger key={activity.id} value={activity.slug}>
+            <TabsTrigger
+              key={activity.id}
+              value={activity.slug}
+              className={`${activityTheme(activity.slug)} border border-transparent transition-colors hover:text-[var(--tc)] data-[state=active]:border-[var(--tc-border)] data-[state=active]:bg-[var(--tc-soft)] data-[state=active]:text-[var(--tc)]`}
+            >
               {activity.title}
             </TabsTrigger>
           ))}
         </TabsList>
+
 
         {list.map((activity) => {
           const items = groupContent.filter((c) => c.activity_id === activity.id);
