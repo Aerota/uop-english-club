@@ -177,6 +177,96 @@
   display: none;
 }
 
+/*
+ * Accent identities. Activity types and groups each get a hue on top of the
+ * primary blue. Every theme sets three tiers: solid, soft surface, border.
+ */
+.theme-blue { --tc: oklch(0.52 0.18 260); }
+.theme-amber { --tc: oklch(0.63 0.17 55); }
+.theme-violet { --tc: oklch(0.52 0.22 300); }
+.theme-emerald { --tc: oklch(0.55 0.14 160); }
+.theme-cyan { --tc: oklch(0.56 0.13 225); }
+.theme-teal { --tc: oklch(0.55 0.11 190); }
+.theme-gold { --tc: oklch(0.6 0.14 75); }
+.theme-rose { --tc: oklch(0.56 0.2 12); }
+.theme-indigo { --tc: oklch(0.55 0.19 280); }
+.theme-orange { --tc: oklch(0.63 0.18 45); }
+
+.theme-blue,
+.theme-amber,
+.theme-violet,
+.theme-emerald,
+.theme-cyan,
+.theme-teal,
+.theme-gold,
+.theme-rose,
+.theme-indigo,
+.theme-orange {
+  --tc-soft: color-mix(in oklab, var(--tc) 12%, var(--color-card));
+  --tc-tint: color-mix(in oklab, var(--tc) 6%, var(--color-card));
+  --tc-border: color-mix(in oklab, var(--tc) 32%, transparent);
+}
+
+.dark .theme-blue,
+.dark .theme-amber,
+.dark .theme-violet,
+.dark .theme-emerald,
+.dark .theme-cyan,
+.dark .theme-teal,
+.dark .theme-gold,
+.dark .theme-rose,
+.dark .theme-indigo,
+.dark .theme-orange {
+  --tc: color-mix(in oklab, var(--tc) 72%, white);
+  --tc-soft: color-mix(in oklab, var(--tc) 22%, var(--color-card));
+  --tc-tint: color-mix(in oklab, var(--tc) 12%, var(--color-card));
+  --tc-border: color-mix(in oklab, var(--tc) 38%, transparent);
+}
+
+/** Soft pill that carries the accent. */
+@utility theme-chip {
+  border: 1px solid var(--tc-border);
+  background-color: var(--tc-soft);
+  color: var(--tc);
+}
+
+/** Thin accent bar, used at the top of cards. */
+@utility theme-stripe {
+  background: linear-gradient(
+    90deg,
+    var(--tc),
+    color-mix(in oklab, var(--tc) 50%, var(--color-primary))
+  );
+}
+
+@utility theme-text {
+  color: var(--tc);
+}
+
+/** Card that lifts into its accent colour on hover/focus. */
+@utility theme-surface {
+  border-color: var(--tc-border);
+  transition:
+    border-color 250ms ease,
+    box-shadow 250ms ease,
+    background-color 250ms ease,
+    transform 250ms ease;
+
+  &:hover,
+  &:focus-visible {
+    border-color: var(--tc);
+    background-color: var(--tc-tint);
+    box-shadow: 0 18px 40px -26px var(--tc);
+  }
+}
+
+/** Accent-tinted panel background. */
+@utility theme-panel {
+  border: 1px solid var(--tc-border);
+  background-color: var(--tc-tint);
+}
+
+
 /* Restrained academic motion for public-facing pages. */
 .site-motion-layer {
   pointer-events: none;
