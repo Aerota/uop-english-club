@@ -99,11 +99,14 @@ function PostPage() {
             </aside>
 
             <div className="min-w-0" id="post-start">
-              <div className="flex flex-wrap items-center gap-2">
-                <Badge variant="secondary">{activity.title}</Badge>
-                <span className="text-sm text-muted-foreground">{formatDate(post.post_date)}</span>
-                {post.status === "draft" ? <Badge variant="outline">Draft preview</Badge> : null}
-              </div>
+              <div className={`flex flex-wrap items-center gap-2 ${activityTheme(activity.slug)}`}>
+  <span className="theme-chip rounded-full px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide">
+    {activity.title}
+  </span>
+  <span className="text-sm text-muted-foreground">{formatDate(post.post_date)}</span>
+  {post.status === "draft" ? <Badge variant="outline">Draft preview</Badge> : null}
+</div>
+
               <h1 className="mt-4 break-words font-display text-3xl font-semibold leading-tight md:text-5xl">{post.title}</h1>
               {post.excerpt ? <p className="mt-5 text-lg leading-relaxed text-muted-foreground">{post.excerpt}</p> : null}
               <PostBlocks blocks={post.blocks} postId={post.id} likes={post.likes_count} />
@@ -120,11 +123,30 @@ function PostPage() {
                 </dl>
               </section>
               <section className="mt-5 rounded-lg border border-border bg-card p-5">
-                <h2 className="text-xs font-semibold uppercase text-muted-foreground">Groups 5–10</h2>
-                <nav className="mt-4 space-y-1 border-t border-border pt-3" aria-label="Browse groups">
-                  {(groups.data ?? []).map((item) => <Link key={item.id} to="/groups/$slug" params={{ slug: item.slug }} aria-current={item.id === group.id ? "page" : undefined} className={`flex min-w-0 items-center justify-between gap-2 rounded-md px-2 py-2.5 text-sm transition-colors hover:bg-muted hover:text-primary ${item.id === group.id ? "bg-secondary font-semibold text-primary" : "text-muted-foreground"}`}><span className="min-w-0 truncate">{item.name}</span><MoveUpRight className="size-4 shrink-0" /></Link>)}
-                </nav>
-              </section>
+  <h2 className="text-xs font-semibold uppercase text-muted-foreground">Groups 5–10</h2>
+  <nav className="mt-4 space-y-1 border-t border-border pt-3" aria-label="Browse groups">
+    {(groups.data ?? []).map((item) => {
+      const isCurrent = item.id === group.id;
+      return (
+        <Link
+          key={item.id}
+          to="/groups/$slug"
+          params={{ slug: item.slug }}
+          aria-current={isCurrent ? "page" : undefined}
+          className={`flex min-w-0 items-center justify-between gap-2 rounded-md px-2.5 py-2 text-sm transition-all ${groupTheme(item.slug)} ${
+            isCurrent
+              ? "theme-chip font-semibold shadow-xs"
+              : "text-muted-foreground hover:bg-muted/70 hover:text-foreground"
+          }`}
+        >
+          <span className="min-w-0 truncate">{item.name}</span>
+          <MoveUpRight className="size-4 shrink-0" />
+        </Link>
+      );
+    })}
+  </nav>
+</section>
+
             </aside>
           </div>
         </div>
