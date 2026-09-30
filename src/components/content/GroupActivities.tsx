@@ -18,6 +18,8 @@ import {
   postsQuery,
 } from "@/lib/data/queries";
 import type { ActivityName, ContentItem } from "@/lib/data/types";
+import { activityTheme } from "@/lib/theme/palette";
+
 
 
 /** Activity types that keep their work inside named boxes. */
@@ -64,11 +66,16 @@ export function GroupActivities({ groupId, groupSlug }: { groupId: string; group
       <Tabs value={current} onValueChange={setActive} className="mt-6">
         <TabsList className="flex-wrap">
           {list.map((activity) => (
-            <TabsTrigger key={activity.id} value={activity.slug}>
+            <TabsTrigger
+              key={activity.id}
+              value={activity.slug}
+              className={`${activityTheme(activity.slug)} border border-transparent transition-colors hover:text-[var(--tc)] data-[state=active]:border-[var(--tc-border)] data-[state=active]:bg-[var(--tc-soft)] data-[state=active]:text-[var(--tc)]`}
+            >
               {activity.title}
             </TabsTrigger>
           ))}
         </TabsList>
+
 
         {list.map((activity) => {
           const items = groupContent.filter((c) => c.activity_id === activity.id);
@@ -84,6 +91,7 @@ export function GroupActivities({ groupId, groupSlug }: { groupId: string; group
                 posts={activityPosts}
                 groupSlug={groupSlug}
                 activitySlug={activity.slug}
+                activityTitle={activity.title}
               />
 
               {items.length === 0 ? null : grouped ? (
@@ -99,9 +107,10 @@ export function GroupActivities({ groupId, groupSlug }: { groupId: string; group
                       key={topic}
                       type="button"
                       onClick={() => setOpenBox({ name: topic, items: boxItems })}
-                      className="border-beam-hover relative flex flex-col items-center justify-center gap-2 rounded-2xl border border-border/70 bg-card p-6 shadow-soft transition-all hover:-translate-y-1 hover:shadow-lg"
+                      className={`theme-surface relative flex flex-col items-center justify-center gap-2 rounded-2xl border bg-card p-6 shadow-soft hover:-translate-y-1 ${activityTheme(activity.slug)}`}
 
                     >
+
                       <h3 className="text-center font-display text-lg font-semibold">{topic}</h3>
                       <p className="text-xs text-muted-foreground">
                         {boxItems.length} {boxItems.length === 1 ? "item" : "items"} — tap to view

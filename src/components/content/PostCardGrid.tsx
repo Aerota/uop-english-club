@@ -2,18 +2,22 @@ import { Link } from "@tanstack/react-router";
 
 import { Badge } from "@/components/ui/badge";
 import type { ActivityPost } from "@/lib/posts/types";
+import { activityTheme } from "@/lib/theme/palette";
 
 type Props = {
   posts: ActivityPost[];
   groupSlug: string;
   activitySlug: string;
+  activityTitle?: string;
 };
 
 /** Three posts per row, showing header image, heading and a short description. */
-export function PostCardGrid({ posts, groupSlug, activitySlug }: Props) {
+export function PostCardGrid({ posts, groupSlug, activitySlug, activityTitle }: Props) {
   if (!posts.length) {
     return <p className="mt-6 text-sm text-muted-foreground">No posts published here yet.</p>;
   }
+
+  const theme = activityTheme(activitySlug);
 
   return (
     <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -22,9 +26,10 @@ export function PostCardGrid({ posts, groupSlug, activitySlug }: Props) {
           key={post.id}
           to="/groups/$slug/$activity/$post"
           params={{ slug: groupSlug, activity: activitySlug, post: post.slug }}
-          className="group flex flex-col overflow-hidden rounded-2xl border border-border/70 bg-card shadow-soft transition-all hover:-translate-y-1 hover:shadow-lg"
+          className={`group theme-surface flex flex-col overflow-hidden rounded-2xl border bg-card shadow-soft hover:-translate-y-1 ${theme}`}
         >
-          <div className="aspect-[16/10] overflow-hidden bg-primary-soft/60">
+          <span className="theme-stripe h-1.5 w-full" aria-hidden="true" />
+          <div className="aspect-[16/10] overflow-hidden bg-[var(--tc-soft)]">
             {post.header_url ? (
               <img
                 src={post.header_url}
@@ -35,7 +40,12 @@ export function PostCardGrid({ posts, groupSlug, activitySlug }: Props) {
             ) : null}
           </div>
           <div className="flex flex-1 flex-col p-5">
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+              {activityTitle ? (
+                <span className="theme-chip rounded-full px-2.5 py-0.5 text-[0.7rem] font-semibold uppercase tracking-wide">
+                  {activityTitle}
+                </span>
+              ) : null}
               <span>{formatDate(post.post_date)}</span>
               {post.status === "draft" ? <Badge variant="outline">Draft</Badge> : null}
             </div>
@@ -43,7 +53,7 @@ export function PostCardGrid({ posts, groupSlug, activitySlug }: Props) {
             <p className="mt-2 line-clamp-3 text-sm text-muted-foreground">
               {post.excerpt ?? firstParagraph(post)}
             </p>
-            <span className="mt-4 text-sm font-medium text-primary">Read post →</span>
+            <span className="theme-text mt-4 text-sm font-medium">Read post →</span>
           </div>
         </Link>
       ))}

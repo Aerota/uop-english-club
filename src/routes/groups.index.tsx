@@ -5,6 +5,8 @@ import groupWorkImg from "@/assets/group-work.jpg";
 import { PageHero, PageLayout } from "@/components/layout/PageLayout";
 import { Badge } from "@/components/ui/badge";
 import { contentQuery, groupsQuery, membersQuery, postsQuery } from "@/lib/data/queries";
+import { groupTheme } from "@/lib/theme/palette";
+
 
 
 export const Route = createFileRoute("/groups/")({
@@ -44,7 +46,38 @@ function GroupsPage() {
         imageAlt="Students working together on an English group activity"
       />
 
-      <section className="section-shell grid gap-6 py-16 sm:grid-cols-2 lg:grid-cols-3"> {(groups.data ?? []).map((group) => { const memberCount = (members.data ?? []).filter((m) => m.group_id === group.id).length; const uploadCount = (content.data ?? []).filter((c) => c.group_id === group.id).length; const postCount = (posts.data ?? []).filter((p) => p.group_id === group.id && p.status === "published").length; return ( <Link key={group.id} to="/groups/$slug" params={{ slug: group.slug }} className="rounded-2xl border border-border/70 bg-card p-6 shadow-soft transition-shadow hover:shadow-lift" > <p className="eyebrow">{group.tagline}</p> <h2 className="mt-3 font-display text-xl font-semibold">{group.name}</h2> <p className="mt-3 line-clamp-3 text-sm text-muted-foreground"> {group.description} </p> <div className="mt-5 flex gap-2"> <Badge variant="secondary">{postCount} posts</Badge> <Badge variant="secondary">{memberCount} members</Badge> <Badge variant="outline">{uploadCount} uploads</Badge> </div> </Link> ); })} </section>
+      <section className="section-shell grid gap-6 py-16 sm:grid-cols-2 lg:grid-cols-3">
+        {(groups.data ?? []).map((group) => {
+          const memberCount = (members.data ?? []).filter((m) => m.group_id === group.id).length;
+          const uploadCount = (content.data ?? []).filter((c) => c.group_id === group.id).length;
+          const postCount = (posts.data ?? []).filter(
+            (p) => p.group_id === group.id && p.status === "published",
+          ).length;
+          return (
+            <Link
+              key={group.id}
+              to="/groups/$slug"
+              params={{ slug: group.slug }}
+              className={`theme-surface overflow-hidden rounded-2xl border bg-card shadow-soft hover:-translate-y-1 ${groupTheme(group.slug)}`}
+            >
+              <span className="theme-stripe block h-1.5 w-full" aria-hidden="true" />
+              <div className="p-6">
+                <p className="eyebrow theme-text">{group.tagline}</p>
+                <h2 className="mt-3 font-display text-xl font-semibold">{group.name}</h2>
+                <p className="mt-3 line-clamp-3 text-sm text-muted-foreground">
+                  {group.description}
+                </p>
+                <div className="mt-5 flex flex-wrap gap-2 text-xs font-semibold">
+                  <span className="theme-chip rounded-full px-3 py-1">{postCount} posts</span>
+                  <span className="theme-chip rounded-full px-3 py-1">{memberCount} members</span>
+                  <Badge variant="outline">{uploadCount} uploads</Badge>
+                </div>
+              </div>
+            </Link>
+          );
+        })}
+      </section>
+
     </PageLayout>
   );
 }
