@@ -70,7 +70,7 @@ function GroupsPage() {
                 <div className="mt-5 flex flex-wrap gap-2 text-xs font-semibold">
                   <span className="theme-chip rounded-full px-3 py-1">{postCount} posts</span>
                   <span className="theme-chip rounded-full px-3 py-1">{memberCount} members</span>
-                  <Badge variant="outline">{uploadCount} uploads</Badge>
+                
                 </div>
               </div>
             </Link>
