@@ -374,8 +374,8 @@
     from var(--border-angle, 0deg),
     transparent 0deg,
     transparent 230deg,
-    #38bdf8 300deg,
-    #2563eb 345deg,
+    var(--tc, var(--color-accent)) 300deg,
+    color-mix(in oklab, var(--tc, var(--color-accent)) 65%, var(--color-primary)) 345deg,
     transparent 360deg
   );
   -webkit-mask:
@@ -393,8 +393,8 @@
 }
 
 .motion-card:hover {
-  border-color: transparent !important;
-  background-color: color-mix(in oklab, var(--color-card) 94%, var(--color-primary-soft));
+  border-color: transparent;
+  background-color: var(--tc-tint, color-mix(in oklab, var(--color-card) 94%, var(--color-primary-soft)));
   box-shadow: var(--shadow-lift);
   transform: translateY(-0.4rem);
 }
