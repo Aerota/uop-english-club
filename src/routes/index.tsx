@@ -23,6 +23,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { activitiesQuery, contentQuery, groupsQuery, membersQuery, panelsQuery } from "@/lib/data/queries";
+import { activityTheme, groupTheme } from "@/lib/theme/palette";
 
 
 export const Route = createFileRoute("/")({
@@ -50,24 +51,28 @@ export const Route = createFileRoute("/")({
 const HIGHLIGHTS = [
   {
     icon: Palette,
+    slug: "creative-corner",
     title: "Creative Corner",
     text: "Creative works from all six groups, collected and presented in one organised archive.",
     image: assignmentsImg,
   },
   {
     icon: Users,
+    slug: "group-activities",
     title: "Group activities",
     text: "Collaborative tasks, roles and reflections from every group in the program.",
     image: groupWorkImg,
   },
   {
     icon: Presentation,
+    slug: "presentations",
     title: "Presentations",
     text: "Slide decks and recorded presentations delivered throughout the semester.",
     image: presentationsImg,
   },
   {
     icon: BookOpen,
+    slug: "projects",
     title: "Projects",
     text: "Longer project reports and resources produced by the English program teams.",
     image: panelImg,
@@ -235,7 +240,7 @@ function HomePage() {
         </p>
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {HIGHLIGHTS.map((item) => (
-            <Card key={item.title} data-motion-reveal className="motion-card group overflow-hidden border-border/70 p-0 shadow-soft">
+            <Card key={item.title} data-motion-reveal className={`motion-card group overflow-hidden border p-0 shadow-soft ${activityTheme(item.slug)} border-[var(--tc-border)]`}>
               <img
                 src={item.image}
                 alt={item.title}
@@ -245,7 +250,7 @@ function HomePage() {
                 className="motion-image-target h-40 w-full object-cover"
               />
               <CardContent className="pt-6">
-                <span className="motion-icon flex size-10 items-center justify-center rounded-xl bg-primary-soft text-primary">
+                <span className="motion-icon flex size-10 items-center justify-center rounded-xl bg-[var(--tc-soft)] text-[var(--tc)]">
                   <item.icon className="size-5" />
                 </span>
                 <h3 className="mt-4 text-lg font-semibold">{item.title}</h3>
@@ -342,14 +347,14 @@ function HomePage() {
                 to="/groups/$slug"
                 params={{ slug: group.slug }}
                 data-motion-reveal
-                className="motion-card group rounded-2xl border border-border/70 bg-card p-6 shadow-soft"
+                className={`motion-card group rounded-2xl border bg-card p-6 shadow-soft ${groupTheme(group.slug)} border-[var(--tc-border)]`}
               >
-                <p className="eyebrow">{group.tagline}</p>
+                <p className="eyebrow text-[var(--tc)]">{group.tagline}</p>
                 <h3 className="mt-3 font-display text-xl font-semibold">{group.name}</h3>
                 <p className="mt-3 line-clamp-3 text-sm text-muted-foreground">
                   {group.description}
                 </p>
-                <span className="mt-5 inline-block text-sm font-semibold text-primary">
+                <span className="mt-5 inline-block text-sm font-semibold text-[var(--tc)]">
                   <span className="motion-arrow">View group 👉</span>
                 </span>
               </Link>
@@ -371,23 +376,23 @@ function HomePage() {
           <p className="mt-10 text-center text-sm text-muted-foreground">Loading the panel…</p>
         ) : teachers.length > 0 ? (
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {teachers.map((person) => (
-              <Card key={person.id} data-motion-reveal className="motion-card border-border/70 shadow-soft">
+            {teachers.map((person, index) => (
+              <Card key={person.id} data-motion-reveal className={`motion-card border shadow-soft ${groupTheme(`group-${5 + (index % 6)}`)} border-[var(--tc-border)]`}>
                 <CardContent className="flex flex-col items-center px-6 py-8 text-center">
                   {person.photo_url ? (
                     <img
                       src={person.photo_url}
                       alt={person.full_name}
                       loading="lazy"
-                      className="size-28 rounded-full border-4 border-primary/20 object-cover"
+                      className="size-28 rounded-full border-4 border-[var(--tc-border)] object-cover"
                     />
                   ) : (
-                    <span className="flex size-28 items-center justify-center rounded-full border-4 border-primary/20 bg-primary-soft font-display text-2xl font-semibold text-primary">
+                    <span className="flex size-28 items-center justify-center rounded-full border-4 border-[var(--tc-border)] bg-[var(--tc-soft)] font-display text-2xl font-semibold text-[var(--tc)]">
                       {person.full_name.split(" ").map((part) => part[0]).slice(0, 2).join("")}
                     </span>
                   )}
                   <h3 className="mt-5 font-display text-lg font-semibold">{person.full_name}</h3>
-                  {person.role ? <p className="mt-1 text-sm text-primary">{person.role}</p> : null}
+                  {person.role ? <p className="mt-1 text-sm text-[var(--tc)]">{person.role}</p> : null}
                   {person.bio ? <p className="mt-3 text-sm text-muted-foreground">{person.bio}</p> : null}
                 </CardContent>
               </Card>

@@ -137,7 +137,7 @@ function PostPage() {
           className={`flex min-w-0 items-center justify-between gap-2 rounded-md px-2.5 py-2 text-sm transition-all ${groupTheme(item.slug)} ${
             isCurrent
               ? "theme-chip font-semibold shadow-xs"
-              : "text-muted-foreground hover:bg-muted/70 hover:text-foreground"
+               : "text-muted-foreground hover:bg-[var(--tc-soft)] hover:text-[var(--tc)]"
           }`}
         >
           <span className="min-w-0 truncate">{item.name}</span>

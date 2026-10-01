@@ -69,7 +69,7 @@ export function GroupActivities({ groupId, groupSlug }: { groupId: string; group
             <TabsTrigger
               key={activity.id}
               value={activity.slug}
-              className={`${activityTheme(activity.slug)} border border-transparent transition-colors hover:text-[var(--tc)] data-[state=active]:border-[var(--tc-border)] data-[state=active]:bg-[var(--tc-soft)] data-[state=active]:text-[var(--tc)]`}
+              className={`${activityTheme(activity.slug)} border border-transparent transition-colors hover:bg-[var(--tc-soft)] hover:text-[var(--tc)] data-[state=active]:border-[var(--tc-border)] data-[state=active]:bg-[var(--tc-soft)] data-[state=active]:text-[var(--tc)]`}
             >
               {activity.title}
             </TabsTrigger>

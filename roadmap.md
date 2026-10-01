@@ -26,4 +26,5 @@
 
 ## Homepage teachers’ panel
 - [x] Replace the existing “Guided by our teachers” section with the Teachers’ Panel card layout
+- [x] Carry activity and group accent colours into homepage cards and the rotating border; tint tab hover backgrounds
 
