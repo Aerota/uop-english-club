@@ -8,6 +8,7 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { activitiesQuery, groupsQuery, postsQuery } from "@/lib/data/queries";
+import { activityTheme, groupTheme } from "@/lib/theme/palette";
 
 export const Route = createFileRoute("/groups/$slug/$activity/$post")({
   head: () => ({
