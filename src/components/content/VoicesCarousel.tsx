@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Quote } from "lucide-react";
 
 import type { Testimonial } from "@/lib/data/queries";
+import { groupTheme } from "@/lib/theme/palette";
 
 /** Static trio for ≤3 voices; otherwise a "card deck shuffle" — cards flip and fan in place. */
 export function VoicesCarousel({ items }: { items: Testimonial[] }) {
@@ -25,12 +26,12 @@ export function VoicesCarousel({ items }: { items: Testimonial[] }) {
         {visible.map((voice, slot) => (
           <figure
             key={`${voice.id}-${start}`}
-            className="voice-card motion-card rounded-2xl border border-border/70 bg-card p-6 shadow-soft"
+            className={`voice-card motion-card rounded-2xl border border-[var(--tc-border)] bg-card p-6 shadow-soft ${groupTheme(`group-${5 + (items.findIndex((item) => item.id === voice.id) % 6)}`)}`}
             style={rotate ? { animationDelay: `${slot * 140}ms` } : undefined}
           >
-            <Quote className="size-6 text-primary" />
+            <Quote className="size-6 text-[var(--tc)]" />
             <blockquote className="mt-4 text-sm text-muted-foreground">“{voice.quote}”</blockquote>
-            <figcaption className="mt-5 text-sm font-semibold">
+            <figcaption className="mt-5 border-t border-[var(--tc-border)] pt-4 text-sm font-semibold text-[var(--tc)]">
               {voice.author_name}
               {voice.author_role ? (
                 <span className="block text-xs font-normal text-muted-foreground">{voice.author_role}</span>

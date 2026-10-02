@@ -10,6 +10,7 @@ import presentationsImg from "@/assets/presentations.jpg";
 import { PageHero, PageLayout } from "@/components/layout/PageLayout";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { activityTheme, groupTheme } from "@/lib/theme/palette";
 
 export const Route = createFileRoute("/memories")({
   head: () => ({
@@ -36,46 +37,51 @@ export const Route = createFileRoute("/memories")({
 const JOURNEY = [
   {
     step: "01",
+    theme: groupTheme("group-5"),
     title: "The Concept",
     text: "Our program's work was fragmented across chat apps and cloud drives. We proposed a single, structured repository for every assignment, presentation, and recording.",
   },
   {
     step: "02",
+    theme: activityTheme("projects"),
     title: "Architecture & Planning",
     text: "We mapped the site's skeleton on a whiteboard. We established early on that each of the six groups needed a dedicated, self-managed portal for their members and uploads.",
   },
   {
     step: "03",
+    theme: activityTheme("creative-corner"),
     title: "Development",
     text: "Late nights were spent coding layouts, building the secure backend, and refining a blue-themed UI inspired by the Faculty’s official visual identity.",
   },
   {
     step: "04",
+    theme: activityTheme("group-activities"),
     title: "Iteration & Review",
     text: "We presented early builds to the batch and the teachers' panel. Their feedback directly shaped the final navigation, content filters, and upload mechanics.",
   },
   {
     step: "05",
+    theme: activityTheme("presentations"),
     title: "Deployment",
     text: "The archive went live for all six groups. It now serves as an actively growing, permanent record of our batch’s collective effort.",
   },
 ];
 
 const GALLERY = [
-  { src: memoriesPlanningImg, alt: "Web committee sketching the website layout on a whiteboard", caption: "Sketching the first sitemap" },
-  { src: memoriesBuildingImg, alt: "Two committee members coding the site on laptops", caption: "Build nights" },
-  { src: memoriesReviewImg, alt: "A committee member demoing the site to classmates", caption: "First demo to the batch" },
-  { src: memoriesLaunchImg, alt: "The committee celebrating the finished website", caption: "Launch day" },
-  { src: groupWorkImg, alt: "Students collaborating on an English activity", caption: "Collecting group content" },
-  { src: presentationsImg, alt: "A student presenting in a lecture room", caption: "Documenting presentations" },
-  { src: panelImg, alt: "A lecturer reviewing work with students", caption: "Guidance from the panel" },
+  { src: memoriesPlanningImg, alt: "Web committee sketching the website layout on a whiteboard", caption: "Sketching the first sitemap", theme: groupTheme("group-5") },
+  { src: memoriesBuildingImg, alt: "Two committee members coding the site on laptops", caption: "Build nights", theme: groupTheme("group-6") },
+  { src: memoriesReviewImg, alt: "A committee member demoing the site to classmates", caption: "First demo to the batch", theme: groupTheme("group-7") },
+  { src: memoriesLaunchImg, alt: "The committee celebrating the finished website", caption: "Launch day", theme: groupTheme("group-8") },
+  { src: groupWorkImg, alt: "Students collaborating on an English activity", caption: "Collecting group content", theme: groupTheme("group-9") },
+  { src: presentationsImg, alt: "A student presenting in a lecture room", caption: "Documenting presentations", theme: groupTheme("group-10") },
+  { src: panelImg, alt: "A lecturer reviewing work with students", caption: "Guidance from the panel", theme: activityTheme("group-activities") },
 ];
 
 const NUMBERS = [
-  { value: "6", label: "Autonomous Group Portals Managed" },
-  { value: "4", label: "Core Public Pages Designed & Implemented" },
-  { value: "100+", label: "Files, Submissions & Presentations Archived" },
-  { value: "∞", label: "Late-night debugging sessions" },
+  { value: "6", label: "Autonomous Group Portals Managed", theme: groupTheme("group-6") },
+  { value: "4", label: "Core Public Pages Designed & Implemented", theme: activityTheme("projects") },
+  { value: "100+", label: "Files, Submissions & Presentations Archived", theme: activityTheme("creative-corner") },
+  { value: "∞", label: "Late-night debugging sessions", theme: activityTheme("presentations") },
 ];
 
 function MemoriesPage() {
@@ -94,9 +100,11 @@ function MemoriesPage() {
           {NUMBERS.map((item) => (
             <div
               key={item.label}
-              className="rounded-2xl border border-border/70 bg-card p-6 text-center shadow-soft"
+              data-motion-reveal
+              className={`motion-card rounded-lg border border-[var(--tc-border)] bg-card p-6 text-center shadow-soft ${item.theme}`}
             >
-              <p className="font-display text-3xl font-semibold text-primary">{item.value}</p>
+              <span className="theme-stripe mx-auto mb-4 block h-1 w-10 rounded-full" aria-hidden="true" />
+              <p className="font-display text-3xl font-semibold text-[var(--tc)]">{item.value}</p>
               <p className="mt-2 text-sm text-muted-foreground">{item.label}</p>
             </div>
           ))}
@@ -109,9 +117,10 @@ function MemoriesPage() {
           <h2 className="mt-3 text-3xl font-semibold md:text-4xl">From whiteboard to launch</h2>
           <div className="mt-10 space-y-6">
             {JOURNEY.map((item) => (
-              <Card key={item.step} className="border-border/70 shadow-soft">
+              <Card key={item.step} data-motion-reveal className={`motion-card overflow-hidden border border-[var(--tc-border)] shadow-soft ${item.theme}`}>
+                <span className="theme-stripe block h-1 w-full" aria-hidden="true" />
                 <CardContent className="flex gap-5 pt-6">
-                  <span className="font-display text-2xl font-semibold text-primary">
+                  <span className="flex size-11 shrink-0 items-center justify-center rounded-md bg-[var(--tc-soft)] font-display text-lg font-semibold text-[var(--tc)]">
                     {item.step}
                   </span>
                   <div>
@@ -137,7 +146,8 @@ function MemoriesPage() {
           {GALLERY.map((photo) => (
             <figure
               key={photo.caption}
-              className="overflow-hidden rounded-2xl border border-border/70 bg-card shadow-soft"
+              data-motion-reveal
+              className={`motion-card overflow-hidden rounded-lg border border-[var(--tc-border)] bg-card shadow-soft ${photo.theme}`}
             >
               <img
                 src={photo.src}
@@ -145,9 +155,9 @@ function MemoriesPage() {
                 loading="lazy"
                 width={1200}
                 height={900}
-                className="h-56 w-full object-cover"
+                className="motion-image-target h-56 w-full object-cover"
               />
-              <figcaption className="px-5 py-4 text-sm text-muted-foreground">
+              <figcaption className="border-t-2 border-[var(--tc-border)] px-5 py-4 text-sm font-medium text-[var(--tc)]">
                 {photo.caption}
               </figcaption>
             </figure>

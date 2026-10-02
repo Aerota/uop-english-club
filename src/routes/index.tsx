@@ -82,21 +82,25 @@ const HIGHLIGHTS = [
 const SKILLS = [
   {
     icon: PenLine,
+    slug: "creative-corner",
     title: "Academic writing",
     text: "Report structure, referencing, summarising technical material and editing our own drafts.",
   },
   {
     icon: Mic,
+    slug: "presentations",
     title: "Speaking & presenting",
     text: "Delivering technical talks with clear pronunciation, pacing and confident body language.",
   },
   {
     icon: MessagesSquare,
+    slug: "group-activities",
     title: "Discussion & debate",
     text: "Group discussions, interviews and role plays that build fluency under pressure.",
   },
   {
     icon: BookOpen,
+    slug: "projects",
     title: "Reading & research",
     text: "Working through journals, standards and articles to gather evidence for our work.",
   },
@@ -244,7 +248,7 @@ function HomePage() {
       {/* Split feature */}
       <section className="bg-secondary/60 py-20">
         <div className="section-shell grid items-center gap-12 md:grid-cols-2">
-          <div className="motion-image overflow-hidden rounded-3xl shadow-lift">
+          <div className={`motion-image overflow-hidden rounded-3xl border-4 border-[var(--tc-border)] shadow-lift ${activityTheme("group-activities")}`}>
             <img
               src={groupWorkImg}
               alt="Engineering students collaborating on an English group activity"
@@ -267,8 +271,8 @@ function HomePage() {
             </p>
             <div className="mt-8 grid gap-6 sm:grid-cols-2">
               {SKILLS.map((skill) => (
-                <div key={skill.title} data-motion-reveal className="motion-skill group">
-                  <span className="motion-icon flex size-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+                <div key={skill.title} data-motion-reveal className={`motion-skill group border-l-2 border-[var(--tc-border)] pl-4 ${activityTheme(skill.slug)}`}>
+                  <span className="motion-icon flex size-9 items-center justify-center rounded-xl bg-[var(--tc-soft)] text-[var(--tc)]">
                     <skill.icon className="size-4" />
                   </span>
                   <h3 className="mt-3 font-semibold">{skill.title}</h3>
@@ -329,6 +333,7 @@ function HomePage() {
                 data-motion-reveal
                 className={`motion-card group rounded-2xl border bg-card p-6 shadow-soft ${groupTheme(group.slug)} border-[var(--tc-border)]`}
               >
+                <span className="theme-stripe mb-5 block h-1 w-12 rounded-full" aria-hidden="true" />
                 <p className="eyebrow text-[var(--tc)]">{group.tagline}</p>
                 <h3 className="mt-3 font-display text-xl font-semibold">{group.name}</h3>
                 <p className="mt-3 line-clamp-3 text-sm text-muted-foreground">
@@ -357,7 +362,8 @@ function HomePage() {
         ) : teachers.length > 0 ? (
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {teachers.map((person, index) => (
-              <Card key={person.id} data-motion-reveal className={`motion-card border shadow-soft ${groupTheme(`group-${5 + (index % 6)}`)} border-[var(--tc-border)]`}>
+              <Card key={person.id} data-motion-reveal className={`motion-card overflow-hidden border shadow-soft ${groupTheme(`group-${5 + (index % 6)}`)} border-[var(--tc-border)]`}>
+                <span className="theme-stripe block h-1.5 w-full" aria-hidden="true" />
                 <CardContent className="flex flex-col items-center px-6 py-8 text-center">
                   {person.photo_url ? (
                     <img
