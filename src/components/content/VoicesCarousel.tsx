@@ -16,7 +16,7 @@ export function VoicesCarousel({ items }: { items: Testimonial[] }) {
   }, [rotate, paused, items.length]);
 
   const visible = rotate
-    ? [0, 1, 2].map((o) => items[(start + o) % items.length])
+    ? [0, 1, 2].map((o) => items[(start + o) % items.length]!)
     : items;
 
   return (

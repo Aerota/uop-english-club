@@ -21,7 +21,7 @@ export function TestimonialsManager() {
   const refresh = () => qc.invalidateQueries({ queryKey: testimonialsQuery.queryKey });
 
   async function add() {
-    if (!quote.trim() || !name.trim()) return toast.error("Quote and name are required");
+    if (!quote.trim() || !name.trim()) { toast.error("Quote and name are required"); return; }
     setBusy(true);
     const { error } = await supabase.from("testimonials").insert({
       quote: quote.trim(),
@@ -30,7 +30,7 @@ export function TestimonialsManager() {
       sort_order: (items.at(-1)?.sort_order ?? 0) + 1,
     });
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     setQuote(""); setName(""); setRole("");
     toast.success("Testimonial added");
     refresh();
@@ -38,14 +38,14 @@ export function TestimonialsManager() {
 
   async function update(id: string, patch: Partial<Testimonial>) {
     const { error } = await supabase.from("testimonials").update(patch).eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     refresh();
   }
 
   async function remove(id: string) {
     if (!confirm("Delete this testimonial?")) return;
     const { error } = await supabase.from("testimonials").delete().eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     refresh();
   }
 
