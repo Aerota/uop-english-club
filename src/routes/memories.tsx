@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import memoriesBuildingImg from "@/assets/memories-building.jpg";
 import memoriesLaunchImg from "@/assets/memories-launch.jpg";
 import memoriesPlanningImg from "@/assets/memories-planning.jpg";
-import memoriesReviewImg from "@/assets/memories-review.jpg";
+import memoriesReviewImg from "@/assets/IMG_20260910_125701.jpg";
 import groupWorkImg from "@/assets/group-work.jpg";
 import panelImg from "@/assets/panel.jpg";
 import presentationsImg from "@/assets/presentations.jpg";
