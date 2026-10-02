@@ -71,7 +71,7 @@ const GALLERY = [
   { src: memoriesPlanningImg, alt: "Web committee sketching the website layout on a whiteboard", caption: "Sketching the first sitemap", theme: groupTheme("group-5") },
   { src: memoriesBuildingImg, alt: "Two committee members coding the site on laptops", caption: "Build nights", theme: groupTheme("group-6") },
   { src: memoriesReviewImg, alt: "A committee member demoing the site to classmates", caption: "First demo to the batch", theme: groupTheme("group-7") },
-  { src: memoriesLaunchImg, alt: "The committee celebrating the finished website", caption: "Launch day", theme: groupTheme("group-8") },
+  {/*  { src: memoriesLaunchImg, alt: "The committee celebrating the finished website", caption: "Launch day", theme: groupTheme("group-8") },*/}
   { src: groupWorkImg, alt: "Students collaborating on an English activity", caption: "Collecting group content", theme: groupTheme("group-9") },
   { src: presentationsImg, alt: "A student presenting in a lecture room", caption: "Documenting presentations", theme: groupTheme("group-10") },
   { src: panelImg, alt: "A lecturer reviewing work with students", caption: "Guidance from the panel", theme: activityTheme("group-activities") },
