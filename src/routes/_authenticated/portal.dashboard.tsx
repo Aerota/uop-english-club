@@ -3,6 +3,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import {
   Camera,
   Images,
+  MessageSquareQuote,
   LayoutDashboard,
   LogOut,
   Newspaper,
@@ -21,6 +22,7 @@ import { GroupDetailsForm } from "@/components/portal/GroupDetailsForm";
 import { MembersManager } from "@/components/portal/MembersManager";
 import { PanelManager } from "@/components/portal/PanelManager";
 import { PostsManager } from "@/components/portal/PostsManager";
+import { TestimonialsManager } from "@/components/portal/TestimonialsManager";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -110,6 +112,7 @@ function DashboardPage() {
   const adminSections = [
     { value: "activity-types", label: "Activity type labels", icon: UserRoundCog },
     { value: "panels", label: "Panels", icon: Camera },
+    { value: "testimonials", label: "Testimonials", icon: MessageSquareQuote },
   ];
   const sections = [
     ...groupSections,
@@ -225,6 +228,8 @@ function DashboardPage() {
               <PanelManager />
             </TabsContent>
           ) : null}
+
+          {isAdmin ? <TabsContent value="testimonials" className="mt-6"><TestimonialsManager /></TabsContent> : null}
 
           {selectedGroupId ? (
             <TabsContent value="gallery" className="mt-6">

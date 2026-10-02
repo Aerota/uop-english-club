@@ -550,3 +550,11 @@
   }
 }
 
+
+@keyframes voice-flip-in {
+  0% { opacity: 0; transform: rotateY(-75deg) translateZ(-60px) scale(0.9); filter: blur(4px); }
+  60% { opacity: 1; filter: blur(0); }
+  100% { opacity: 1; transform: rotateY(0) translateZ(0) scale(1); }
+}
+.voice-card { animation: voice-flip-in 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both; transform-origin: left center; }
+@media (prefers-reduced-motion: reduce) { .voice-card { animation: none; } }
