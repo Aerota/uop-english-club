@@ -250,3 +250,24 @@ export const galleryImagesQuery = queryOptions({
     }));
   },
 });
+
+export type Testimonial = {
+  id: string;
+  quote: string;
+  author_name: string;
+  author_role: string | null;
+  sort_order: number;
+  is_published: boolean;
+};
+
+export const testimonialsQuery = queryOptions({
+  queryKey: ["testimonials"],
+  queryFn: async (): Promise<Testimonial[]> => {
+    const { data, error } = await supabase
+      .from("testimonials")
+      .select("id, quote, author_name, author_role, sort_order, is_published")
+      .order("sort_order", { ascending: true });
+    if (error) throw error;
+    return (data ?? []) as Testimonial[];
+  },
+});

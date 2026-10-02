@@ -8,7 +8,6 @@ import {
   Mic,
   PenLine,
   Presentation,
-  Quote,
   Users,
 } from "lucide-react";
 
@@ -22,7 +21,8 @@ import { HomeLoadingScreen } from "@/components/HomeLoadingScreen";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { activitiesQuery, contentQuery, groupsQuery, membersQuery, panelsQuery } from "@/lib/data/queries";
+import { activitiesQuery, contentQuery, groupsQuery, membersQuery, panelsQuery, testimonialsQuery } from "@/lib/data/queries";
+import { VoicesCarousel } from "@/components/content/VoicesCarousel";
 import { activityTheme, groupTheme } from "@/lib/theme/palette";
 
 
@@ -125,33 +125,13 @@ const TIMELINE = [
   },
 ];
 
-const VOICES = [
-  {
-    quote:
-      "Presenting in English used to be the hardest part of the semester. Recording and rewatching our talks changed that completely.",
-    name: "Group 2",
-    role: "Presentation team",
-  },
-  {
-    quote:
-      "Having every assignment in one place means we can see how other groups structured their reports before we start ours.",
-    name: "Group 4",
-    role: "Writing team",
-  },
-  {
-    quote:
-      "The feedback from the teachers' panel is much easier to act on when all our drafts live side by side.",
-    name: "Group 5",
-    role: "Project team",
-  },
-];
-
 function HomePage() {
   const groups = useQuery(groupsQuery);
   const activities = useQuery(activitiesQuery);
   const content = useQuery(contentQuery);
   const members = useQuery(membersQuery);
   const panels = useQuery(panelsQuery);
+  const voices = (useQuery(testimonialsQuery).data ?? []).filter((t) => t.is_published);
   const teachers = (panels.data ?? []).filter((person) => person.panel === "teachers");
 
   return (
@@ -413,26 +393,7 @@ function HomePage() {
         <div className="section-shell">
           <p className="eyebrow">In our own words</p>
           <h2 className="mt-3 text-3xl font-semibold md:text-4xl">Voices from the groups</h2>
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
-            {VOICES.map((voice) => (
-              <figure
-                key={voice.name}
-                data-motion-reveal
-                className="motion-card rounded-2xl border border-border/70 bg-card p-6 shadow-soft"
-              >
-                <Quote className="size-6 text-primary" />
-                <blockquote className="mt-4 text-sm text-muted-foreground">
-                  “{voice.quote}”
-                </blockquote>
-                <figcaption className="mt-5 text-sm font-semibold">
-                  {voice.name}
-                  <span className="block text-xs font-normal text-muted-foreground">
-                    {voice.role}
-                  </span>
-                </figcaption>
-              </figure>
-            ))}
-          </div>
+          <VoicesCarousel items={voices} />
         </div>
       </section>
 

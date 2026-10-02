@@ -22,6 +22,7 @@
 - [x] Posts Manager in the portal (blocks, reorder, draft/publish, image compression, video links)
 - [x] Public 3-per-row post cards per activity type
 - [x] Dedicated post page /groups/<group>/<activity>/<post> with likes
+- [x] Testimonials admin section + creative homepage carousel
 - [ ] Remove the "Test post one" demo post once real posts are added
 
 ## Homepage teachers’ panel
