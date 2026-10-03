@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { panelsQuery } from "@/lib/data/queries";
 import type { PanelMember } from "@/lib/data/types";
+import { activityTheme, groupTheme } from "@/lib/theme/palette";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -69,20 +70,23 @@ function AboutPage() {
 
       <section className="section-shell py-16">
         <div className="grid gap-6 md:grid-cols-3">
-          <div className="rounded-2xl border border-border/70 bg-card p-6 shadow-soft">
-            <p className="eyebrow">Who we are</p>
+          <div className={`motion-card rounded-2xl border border-[var(--tc-border)] bg-card p-6 shadow-soft ${groupTheme("group-5")}`}>
+            <span className="theme-stripe mb-5 block h-1 w-12 rounded-full" aria-hidden="true" />
+            <p className="eyebrow theme-text">Who we are</p>
             <p className="mt-3 text-sm text-muted-foreground">
               We are six groups of E25 Engineering undergraduates from the university of Peradeniya participating in an English course conducted by the ELTU of the Faculty of Engineering.
             </p>
           </div>
-          <div className="rounded-2xl border border-border/70 bg-card p-6 shadow-soft">
-            <p className="eyebrow">What we do</p>
+          <div className={`motion-card rounded-2xl border border-[var(--tc-border)] bg-card p-6 shadow-soft ${activityTheme("group-activities")}`}>
+            <span className="theme-stripe mb-5 block h-1 w-12 rounded-full" aria-hidden="true" />
+            <p className="eyebrow theme-text">What we do</p>
             <p className="mt-3 text-sm text-muted-foreground">
               We take part in various activities, presentations, and projects that help us develop the English communication, teamwork, and creative skills needed as engineers.
             </p>
           </div>
-          <div className="rounded-2xl border border-border/70 bg-card p-6 shadow-soft">
-            <p className="eyebrow">Why this site</p>
+          <div className={`motion-card rounded-2xl border border-[var(--tc-border)] bg-card p-6 shadow-soft ${activityTheme("creative-corner")}`}>
+            <span className="theme-stripe mb-5 block h-1 w-12 rounded-full" aria-hidden="true" />
+            <p className="eyebrow theme-text">Why this site</p>
             <p className="mt-3 text-sm text-muted-foreground">
               This website is to showcase and document the work, activities, and experiences of the six groups: AB05, AB06, AB07, A808, AB09, and AB10, throughout the course. We submit our work through this website allowing us to learn from one another and improve together.
             </p>
@@ -92,7 +96,7 @@ function AboutPage() {
 
       <section className="section-shell pb-16">
         <div className="grid items-center gap-10 md:grid-cols-2">
-          <div className="overflow-hidden rounded-3xl shadow-lift">
+          <div className={`overflow-hidden rounded-3xl border-4 border-[var(--tc-border)] shadow-lift ${activityTheme("presentations")}`}>
             <img
               src={groupWorkImg}
               alt="Students of 5-10 Group AB working on an English activity"
@@ -102,8 +106,9 @@ function AboutPage() {
               className="h-full w-full object-cover"
             />
           </div>
-          <div>
-            <p className="eyebrow">Our commitment</p>
+          <div className={activityTheme("projects")}>
+            <p className="eyebrow theme-text">Our commitment</p>
+            <span className="theme-stripe mt-3 block h-1 w-12 rounded-full" aria-hidden="true" />
             <h2 className="mt-3 text-3xl font-semibold md:text-4xl">
               Communication skills for engineers
             </h2>
@@ -121,10 +126,11 @@ function AboutPage() {
               (p) => p.panel === section.key,
             );
             return (
-              <div key={section.key}>
+              <div key={section.key} className={section.key === "teachers" ? activityTheme("presentations") : activityTheme("projects")}>
                 <div className="flex flex-wrap items-center gap-3">
+                  <span className="theme-stripe h-8 w-1 rounded-full" aria-hidden="true" />
                   <h2 className="text-2xl font-semibold md:text-3xl">{section.name}</h2>
-                  <Badge variant="secondary">{people.length} listed</Badge>
+                  <Badge className="theme-chip">{people.length} listed</Badge>
                 </div>
                 <p className="mt-3 max-w-2xl text-sm text-muted-foreground">{section.summary}</p>
                 {people.length === 0 ? (
@@ -133,18 +139,19 @@ function AboutPage() {
                   </p>
                 ) : (
                   <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                    {people.map((member) => (
-                      <Card key={member.id} className="border-border/70 shadow-soft">
+                    {people.map((member, index) => (
+                      <Card key={member.id} className={`motion-card overflow-hidden border border-[var(--tc-border)] shadow-soft ${groupTheme(`group-${5 + (index % 6)}`)}`}>
+                        <span className="theme-stripe block h-1.5 w-full" aria-hidden="true" />
                         <CardContent className="flex items-center gap-4 pt-6">
                           {member.photo_url ? (
                             <img
                               src={member.photo_url}
                               alt={member.full_name}
                               loading="lazy"
-                              className="size-12 shrink-0 rounded-full object-cover"
+                              className="size-12 shrink-0 rounded-full border-2 border-[var(--tc-border)] object-cover"
                             />
                           ) : (
-                            <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-primary-soft font-display text-sm font-semibold text-primary">
+                            <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-[var(--tc-soft)] font-display text-sm font-semibold text-[var(--tc)]">
                               {initials(member.full_name)}
                             </span>
                           )}
