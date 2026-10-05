@@ -1,12 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import memoriesBuildingImg from "@/assets/memories-building.jpg";
+import memoriesBuildingImg from "@/assets/image (3).jpeg";
 import memoriesLaunchImg from "@/assets/memories-launch.jpg";
-import memoriesPlanningImg from "@/assets/memories-planning.jpg";
+import memoriesPlanningImg from "@/assets/image (1).jpeg";
 import memoriesReviewImg from "@/assets/IMG_20260910_125701.jpg";
-import groupWorkImg from "@/assets/group-work.jpg";
+import groupWorkImg from "@/assets/image (4).jpeg";
 import panelImg from "@/assets/panel.jpg";
-import presentationsImg from "@/assets/presentations.jpg";
+import presentationsImg from "@/assets/image (2).jpeg";
 import { PageHero, PageLayout } from "@/components/layout/PageLayout";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
