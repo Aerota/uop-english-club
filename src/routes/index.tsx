@@ -13,6 +13,7 @@ import {
 
 import assignmentsImg from "@/assets/assignments.jpg";
 import groupWorkImg from "@/assets/group-work.jpg";
+import groupWorkImg2 from "@/assets/image (4).jpeg";
 import heroImg from "@/assets/hero-campus.jpg";
 import panelImg from "@/assets/panel.jpg";
 import presentationsImg from "@/assets/presentations.jpg";
@@ -250,7 +251,7 @@ function HomePage() {
         <div className="section-shell grid items-center gap-12 md:grid-cols-2">
           <div className={`motion-image overflow-hidden rounded-3xl border-4 border-[var(--tc-border)] shadow-lift ${activityTheme("group-activities")}`}>
             <img
-              src={groupWorkImg}
+              src={groupWorkImg2}
               alt="Engineering students collaborating on an English group activity"
               loading="lazy"
               width={1200}
