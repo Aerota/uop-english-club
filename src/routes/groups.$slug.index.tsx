@@ -51,6 +51,8 @@ const ALL = "all";
 
 function GroupDetailPage() {
   const { slug } = Route.useParams();
+  const { activity } = Route.useSearch();
+  const navigate = Route.useNavigate();
   const groups = useQuery(groupsQuery);
   const members = useQuery(membersQuery);
   const content = useQuery(contentQuery);
@@ -163,7 +165,17 @@ function GroupDetailPage() {
         <p className="mt-1 text-sm text-muted-foreground">
           Switch between activity types to see this group&apos;s work.
         </p>
-        <GroupActivities groupId={group.id} groupSlug={group.slug} />
+        <GroupActivities
+          groupId={group.id}
+          groupSlug={group.slug}
+          active={activity}
+          onActiveChange={(value) =>
+            navigate({
+              search: (prev) => ({ ...prev, activity: value }),
+              replace: true,
+            })
+          }
+        />
       </section>
 
       <section className="bg-secondary/60 py-16">
