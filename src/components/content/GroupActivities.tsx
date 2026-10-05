@@ -63,7 +63,7 @@ export function GroupActivities({
     return <p className="mt-6 text-sm text-muted-foreground">Loading activities…</p>;
   }
 
-  const current = active || list[0]!.slug;
+  const current = list.some((a) => a.slug === active) ? active : list[0]!.slug;
   const groupContent = (content.data ?? []).filter((c) => c.group_id === groupId);
   const groupPosts = (posts.data ?? []).filter(
     (p) => p.group_id === groupId && p.status === "published",
@@ -72,7 +72,7 @@ export function GroupActivities({
 
   return (
     <>
-      <Tabs value={current} onValueChange={setActive} className="mt-6">
+      <Tabs value={current} onValueChange={onActiveChange} className="mt-6">
         <TabsList className="flex-wrap">
           {list.map((activity) => (
             <TabsTrigger
