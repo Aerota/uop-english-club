@@ -173,6 +173,7 @@ function GroupDetailPage() {
             navigate({
               search: (prev) => ({ ...prev, activity: value }),
               replace: true,
+              resetScroll: false,
             })
           }
         />
