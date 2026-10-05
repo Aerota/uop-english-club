@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 
-import groupWorkImg from "@/assets/group-work.jpg";
+import groupWorkImg from "@/assets/image 5.jpeg";
 import panelImg from "@/assets/panel.jpg";
 import { PageHero, PageLayout } from "@/components/layout/PageLayout";
 import { Badge } from "@/components/ui/badge";
