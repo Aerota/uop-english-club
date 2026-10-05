@@ -90,7 +90,7 @@ function MemoriesPage() {
         eyebrow="Memories"
         title="The Making of the Archive"
         description="A retrospective on how the web committee built a unified digital home for our batch's English program work. From whiteboard sketches to launch day, this is the story behind the site."
-        image={memoriesLaunchImg}
+        image={memoriesPlanningImg}
         imageAlt="The web committee celebrating the finished website"
       />
 
