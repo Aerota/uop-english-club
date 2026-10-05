@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { fallback, zodValidator } from "@tanstack/zod-adapter";
 import { useState } from "react";
+import { z } from "zod";
 
 import { GroupActivities } from "@/components/content/GroupActivities";
 import { GroupGallery } from "@/components/gallery/GroupGallery";
@@ -19,7 +21,12 @@ import { contentQuery, groupsQuery, membersQuery, postsQuery } from "@/lib/data/
 import { groupTheme } from "@/lib/theme/palette";
 
 
+const groupSearchSchema = z.object({
+  activity: fallback(z.string(), "").default(""),
+});
+
 export const Route = createFileRoute("/groups/$slug/")({
+  validateSearch: zodValidator(groupSearchSchema),
   head: () => ({
     meta: [
       { title: "AB Group — 5-10 English Program" },
@@ -44,6 +51,8 @@ const ALL = "all";
 
 function GroupDetailPage() {
   const { slug } = Route.useParams();
+  const { activity } = Route.useSearch();
+  const navigate = Route.useNavigate();
   const groups = useQuery(groupsQuery);
   const members = useQuery(membersQuery);
   const content = useQuery(contentQuery);
@@ -156,7 +165,17 @@ function GroupDetailPage() {
         <p className="mt-1 text-sm text-muted-foreground">
           Switch between activity types to see this group&apos;s work.
         </p>
-        <GroupActivities groupId={group.id} groupSlug={group.slug} />
+        <GroupActivities
+          groupId={group.id}
+          groupSlug={group.slug}
+          active={activity}
+          onActiveChange={(value) =>
+            navigate({
+              search: (prev) => ({ ...prev, activity: value }),
+              replace: true,
+            })
+          }
+        />
       </section>
 
       <section className="bg-secondary/60 py-16">

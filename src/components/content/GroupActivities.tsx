@@ -41,20 +41,29 @@ function boxesFor(items: ContentItem[], names: ActivityName[]) {
 }
 
 /** Per-group work, switched by activity type: posts first, then uploaded files. */
-export function GroupActivities({ groupId, groupSlug }: { groupId: string; groupSlug: string }) {
+export function GroupActivities({
+  groupId,
+  groupSlug,
+  active,
+  onActiveChange,
+}: {
+  groupId: string;
+  groupSlug: string;
+  active: string;
+  onActiveChange: (value: string) => void;
+}) {
   const activities = useQuery(activitiesQuery);
   const content = useQuery(contentQuery);
   const activityNames = useQuery(activityNamesQuery);
   const posts = useQuery(postsQuery);
   const list = (activities.data ?? []).slice().sort((a, b) => a.sort_order - b.sort_order);
-  const [active, setActive] = useState<string>("");
   const [openBox, setOpenBox] = useState<{ name: string; items: ContentItem[] } | null>(null);
 
   if (!list.length) {
     return <p className="mt-6 text-sm text-muted-foreground">Loading activities…</p>;
   }
 
-  const current = active || list[0]!.slug;
+  const current = list.some((a) => a.slug === active) ? active : list[0]!.slug;
   const groupContent = (content.data ?? []).filter((c) => c.group_id === groupId);
   const groupPosts = (posts.data ?? []).filter(
     (p) => p.group_id === groupId && p.status === "published",
@@ -63,7 +72,7 @@ export function GroupActivities({ groupId, groupSlug }: { groupId: string; group
 
   return (
     <>
-      <Tabs value={current} onValueChange={setActive} className="mt-6">
+      <Tabs value={current} onValueChange={onActiveChange} className="mt-6">
         <TabsList className="flex-wrap">
           {list.map((activity) => (
             <TabsTrigger

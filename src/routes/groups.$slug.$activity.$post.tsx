@@ -80,7 +80,7 @@ function PostPage() {
           </div>
         ) : null}
         <div className="section-shell pt-6 sm:pt-9">
-          <Link to="/groups/$slug" params={{ slug: group.slug }} className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-primary">
+          <Link to="/groups/$slug" params={{ slug: group.slug }} search={{ activity: activity.slug }} className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-primary">
             <ArrowLeft className="size-4" /> {group.name}
           </Link>
           <div className="mt-6 grid min-w-0 gap-8 lg:grid-cols-[minmax(0,11rem)_minmax(0,1fr)_minmax(0,13rem)] xl:grid-cols-[minmax(0,12rem)_minmax(0,1fr)_minmax(0,15rem)] xl:gap-10">
