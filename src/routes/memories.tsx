@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import memoriesBuildingImg from "@/assets/image (3).jpeg";
 import memoriesLaunchImg from "@/assets/memories-launch.jpg";
 import memoriesPlanningImg from "@/assets/image (1).jpeg";
+import memoriesPlanningImg2 from "@/assets/image (6).jpeg";
 import memoriesReviewImg from "@/assets/IMG_20260910_125701.jpg";
 import groupWorkImg from "@/assets/image (4).jpeg";
 import panelImg from "@/assets/image (6).jpeg"";
@@ -90,7 +91,7 @@ function MemoriesPage() {
         eyebrow="Memories"
         title="The Making of the Archive"
         description="A retrospective on how the web committee built a unified digital home for our batch's English program work. From whiteboard sketches to launch day, this is the story behind the site."
-        image={panelImg}
+        image={memoriesPlanningImg2}
         imageAlt="The web committee celebrating the finished website"
       />
 
