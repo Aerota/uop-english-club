@@ -4,13 +4,6 @@ import { groupTheme } from "@/lib/theme/palette";
 
 const ACCENTS = ["group-5", "group-6", "group-7"];
 
-function host(url: string) {
-  try {
-    return new URL(url).hostname.replace(/^www\./, "");
-  } catch {
-    return url;
-  }
-}
 
 export function RelatedSites({ items }: { items: RelatedSite[] }) {
   return (
@@ -28,14 +21,6 @@ export function RelatedSites({ items }: { items: RelatedSite[] }) {
               rel="noopener noreferrer"
               className={`${theme} group overflow-hidden rounded-2xl border border-t-4 border-t-[var(--accent-solid,var(--primary))] bg-card shadow-sm transition hover:-translate-y-1 hover:shadow-lg`}
             >
-              <div className="flex items-center gap-1.5 border-b bg-muted px-3 py-2">
-                <span className="size-2.5 rounded-full bg-destructive/60" />
-                <span className="size-2.5 rounded-full bg-accent" />
-                <span className="size-2.5 rounded-full bg-primary/50" />
-                <span className="ml-2 truncate rounded bg-background px-2 py-0.5 text-xs text-muted-foreground">
-                  {host(site.url)}
-                </span>
-              </div>
               <div className="relative aspect-[16/10] overflow-hidden bg-secondary">
                 <div className="absolute inset-0 flex items-center justify-center text-muted-foreground">
                   <Globe className="size-10" />
