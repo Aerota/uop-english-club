@@ -8,6 +8,7 @@ import {
   LogOut,
   Newspaper,
   Settings,
+  Globe,
   UserRoundCog,
   Users,
 } from "lucide-react";
@@ -23,6 +24,7 @@ import { MembersManager } from "@/components/portal/MembersManager";
 import { PanelManager } from "@/components/portal/PanelManager";
 import { PostsManager } from "@/components/portal/PostsManager";
 import { TestimonialsManager } from "@/components/portal/TestimonialsManager";
+import { RelatedSitesManager } from "@/components/portal/RelatedSitesManager";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -113,6 +115,7 @@ function DashboardPage() {
     { value: "activity-types", label: "Activity type labels", icon: UserRoundCog },
     { value: "panels", label: "Panels", icon: Camera },
     { value: "testimonials", label: "Testimonials", icon: MessageSquareQuote },
+    { value: "websites", label: "Other websites", icon: Globe },
   ];
   const sections = [
     ...groupSections,
@@ -230,6 +233,7 @@ function DashboardPage() {
           ) : null}
 
           {isAdmin ? <TabsContent value="testimonials" className="mt-6"><TestimonialsManager /></TabsContent> : null}
+          {isAdmin ? <TabsContent value="websites" className="mt-6"><RelatedSitesManager /></TabsContent> : null}
 
           {selectedGroupId ? (
             <TabsContent value="gallery" className="mt-6">
