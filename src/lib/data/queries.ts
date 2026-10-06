@@ -271,3 +271,23 @@ export const testimonialsQuery = queryOptions({
     return (data ?? []) as Testimonial[];
   },
 });
+
+export type RelatedSite = {
+  id: string;
+  name: string;
+  url: string;
+  description: string | null;
+  sort_order: number;
+};
+
+export const relatedSitesQuery = queryOptions({
+  queryKey: ["related_sites"],
+  queryFn: async (): Promise<RelatedSite[]> => {
+    const { data, error } = await supabase
+      .from("related_sites")
+      .select("id,name,url,description,sort_order")
+      .order("sort_order");
+    if (error) throw error;
+    return (data ?? []) as RelatedSite[];
+  },
+});

@@ -22,8 +22,9 @@ import { HomeLoadingScreen } from "@/components/HomeLoadingScreen";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { activitiesQuery, contentQuery, groupsQuery, membersQuery, panelsQuery, testimonialsQuery } from "@/lib/data/queries";
+import { activitiesQuery, contentQuery, groupsQuery, membersQuery, panelsQuery, testimonialsQuery, relatedSitesQuery } from "@/lib/data/queries";
 import { VoicesCarousel } from "@/components/content/VoicesCarousel";
+import { RelatedSites } from "@/components/content/RelatedSites";
 import { activityTheme, groupTheme } from "@/lib/theme/palette";
 
 
@@ -137,6 +138,7 @@ function HomePage() {
   const members = useQuery(membersQuery);
   const panels = useQuery(panelsQuery);
   const voices = (useQuery(testimonialsQuery).data ?? []).filter((t) => t.is_published);
+  const sites = useQuery(relatedSitesQuery).data ?? [];
   const teachers = (panels.data ?? []).filter((person) => person.panel === "teachers");
 
   return (
@@ -403,6 +405,8 @@ function HomePage() {
           <VoicesCarousel items={voices} />
         </div>
       </section>
+
+      {sites.length ? <RelatedSites items={sites} /> : null}
 
       {/* CTA */}
       <section className="section-shell py-20">
