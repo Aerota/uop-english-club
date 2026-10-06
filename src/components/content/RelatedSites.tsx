@@ -26,8 +26,7 @@ export function RelatedSites({ items }: { items: RelatedSite[] }) {
               href={site.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group overflow-hidden rounded-2xl border bg-card shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
-              style={theme.style}
+              className={`${theme} group overflow-hidden rounded-2xl border border-t-4 border-t-[var(--accent-solid,var(--primary))] bg-card shadow-sm transition hover:-translate-y-1 hover:shadow-lg`}
             >
               <div className="flex items-center gap-1.5 border-b bg-muted px-3 py-2">
                 <span className="size-2.5 rounded-full bg-destructive/60" />
