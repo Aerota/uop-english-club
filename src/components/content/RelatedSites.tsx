@@ -4,13 +4,6 @@ import { groupTheme } from "@/lib/theme/palette";
 
 const ACCENTS = ["group-5", "group-6", "group-7"];
 
-function host(url: string) {
-  try {
-    return new URL(url).hostname.replace(/^www\./, "");
-  } catch {
-    return url;
-  }
-}
 
 export function RelatedSites({ items }: { items: RelatedSite[] }) {
   return (
