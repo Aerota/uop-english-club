@@ -46,9 +46,9 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
       /Failed to fetch dynamically imported module|Importing a module script failed|error loading dynamically imported module/i.test(
         msg,
       ) &&
-      !sessionStorage.getItem("chunk-reload")
+      Date.now() - Number(sessionStorage.getItem("chunk-reload-at") ?? 0) > 15000
     ) {
-      sessionStorage.setItem("chunk-reload", "1");
+      sessionStorage.setItem("chunk-reload-at", String(Date.now()));
       window.location.reload();
       return;
     }
@@ -118,10 +118,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   errorComponent: ErrorComponent,
 });
 
+const CHUNK_RELOAD_SCRIPT = `(function(){var K="chunk-reload-at",R=/Failed to fetch dynamically imported module|Importing a module script failed|error loading dynamically imported module|Unable to preload CSS/i;function go(e){try{var t=Number(sessionStorage.getItem(K)||0);if(Date.now()-t<15000)return;sessionStorage.setItem(K,String(Date.now()));if(e&&e.preventDefault)e.preventDefault();location.reload();}catch(_){}}window.addEventListener("vite:preloadError",go);window.addEventListener("unhandledrejection",function(e){var r=e.reason;if(R.test(String((r&&r.message)||r)))go(e);});window.addEventListener("error",function(e){if(R.test(String(e.message||"")))go(e);});})();`;
+
 function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
+        <script dangerouslySetInnerHTML={{ __html: CHUNK_RELOAD_SCRIPT }} />
         <HeadContent />
       </head>
       <body>
@@ -135,21 +138,6 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const router = useRouter();
-
-  useEffect(() => {
-    const t = setTimeout(() => sessionStorage.removeItem("chunk-reload"), 10000);
-    const onPreloadError = (e: Event) => {
-      if (sessionStorage.getItem("chunk-reload")) return;
-      e.preventDefault();
-      sessionStorage.setItem("chunk-reload", "1");
-      window.location.reload();
-    };
-    window.addEventListener("vite:preloadError", onPreloadError);
-    return () => {
-      clearTimeout(t);
-      window.removeEventListener("vite:preloadError", onPreloadError);
-    };
-  }, []);
 
   useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange((event) => {
