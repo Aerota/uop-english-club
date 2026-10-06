@@ -41,6 +41,17 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
   console.error(error);
   const router = useRouter();
   useEffect(() => {
+    const msg = error instanceof Error ? error.message : String(error);
+    if (
+      /Failed to fetch dynamically imported module|Importing a module script failed|error loading dynamically imported module/i.test(
+        msg,
+      ) &&
+      !sessionStorage.getItem("chunk-reload")
+    ) {
+      sessionStorage.setItem("chunk-reload", "1");
+      window.location.reload();
+      return;
+    }
     reportLovableError(error, { boundary: "tanstack_root_error_component" });
   }, [error]);
 
@@ -124,6 +135,21 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const router = useRouter();
+
+  useEffect(() => {
+    const t = setTimeout(() => sessionStorage.removeItem("chunk-reload"), 10000);
+    const onPreloadError = (e: Event) => {
+      if (sessionStorage.getItem("chunk-reload")) return;
+      e.preventDefault();
+      sessionStorage.setItem("chunk-reload", "1");
+      window.location.reload();
+    };
+    window.addEventListener("vite:preloadError", onPreloadError);
+    return () => {
+      clearTimeout(t);
+      window.removeEventListener("vite:preloadError", onPreloadError);
+    };
+  }, []);
 
   useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange((event) => {
