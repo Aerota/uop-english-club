@@ -43,7 +43,7 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
   useEffect(() => {
     const msg = error instanceof Error ? error.message : String(error);
     if (
-      /Failed to fetch dynamically imported module|Importing a module script failed|error loading dynamically imported module/i.test(
+      /Failed to fetch dynamically imported module|Importing a module script failed|error loading dynamically imported module|reading 'component'/i.test(
         msg,
       ) &&
       Date.now() - Number(sessionStorage.getItem("chunk-reload-at") ?? 0) > 15000
@@ -118,7 +118,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   errorComponent: ErrorComponent,
 });
 
-const CHUNK_RELOAD_SCRIPT = `(function(){var K="chunk-reload-at",R=/Failed to fetch dynamically imported module|Importing a module script failed|error loading dynamically imported module|Unable to preload CSS/i;function go(e){try{var t=Number(sessionStorage.getItem(K)||0);if(Date.now()-t<15000)return;sessionStorage.setItem(K,String(Date.now()));if(e&&e.preventDefault)e.preventDefault();location.reload();}catch(_){}}window.addEventListener("vite:preloadError",go);window.addEventListener("unhandledrejection",function(e){var r=e.reason;if(R.test(String((r&&r.message)||r)))go(e);});window.addEventListener("error",function(e){if(R.test(String(e.message||"")))go(e);});})();`;
+const CHUNK_RELOAD_SCRIPT = `(function(){var K="chunk-reload-at",R=/Failed to fetch dynamically imported module|Importing a module script failed|error loading dynamically imported module|Unable to preload CSS|reading 'component'/i;function go(e){try{var t=Number(sessionStorage.getItem(K)||0);if(Date.now()-t<15000)return;sessionStorage.setItem(K,String(Date.now()));if(e&&e.preventDefault)e.preventDefault();location.reload();}catch(_){}}window.addEventListener("vite:preloadError",go);window.addEventListener("unhandledrejection",function(e){var r=e.reason;if(R.test(String((r&&r.message)||r)))go(e);});window.addEventListener("error",function(e){if(R.test(String(e.message||"")))go(e);});})();`;
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
