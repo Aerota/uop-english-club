@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { embedUrl, type PostBlock } from "@/lib/posts/types";
+import { parseLinks } from "@/lib/posts/links";
 
 /** Render a published post's blocks in the order they were arranged. */
 export function PostBlocks({
@@ -35,7 +36,15 @@ export function PostBlocks({
         if (block.type === "paragraph") {
           return (
             <p key={block.id} className="whitespace-pre-line text-base leading-relaxed text-muted-foreground">
-              {block.text}
+              {parseLinks(block.text).map((part, i) =>
+                part.href ? (
+                  <a key={i} href={part.href} target="_blank" rel="noopener noreferrer" className="font-medium text-primary underline underline-offset-2 hover:opacity-80">
+                    {part.text}
+                  </a>
+                ) : (
+                  <span key={i}>{part.text}</span>
+                ),
+              )}
             </p>
           );
         }
