@@ -117,6 +117,32 @@ export function PostBlocks({
             />
           );
         }
+        if (block.type === "link") {
+          if (!block.url) return null;
+          const href = /^https?:\/\//i.test(block.url) ? block.url : `https://${block.url}`;
+          return (
+            <a
+              key={block.id}
+              href={href}
+              target="_blank"
+              rel="noreferrer"
+              className="group flex items-start gap-3 rounded-xl border border-primary/30 bg-primary/5 p-4 transition-colors hover:border-primary hover:bg-primary/10"
+            >
+              <span className="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-full bg-primary/15 text-primary">
+                <ExternalLink className="size-4" />
+              </span>
+              <span className="min-w-0">
+                <span className="block font-semibold text-primary underline-offset-4 group-hover:underline">
+                  {block.label || href}
+                </span>
+                {block.description ? (
+                  <span className="mt-1 block text-sm text-muted-foreground">{block.description}</span>
+                ) : null}
+                <span className="mt-1 block truncate text-xs text-muted-foreground">{href}</span>
+              </span>
+            </a>
+          );
+        }
         return <div key={block.id} id="post-reactions" className="scroll-mt-24"><LikeSection label={block.label} postId={postId} likes={likes} /></div>;
       })}
     </div>

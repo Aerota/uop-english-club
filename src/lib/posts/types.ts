@@ -24,6 +24,7 @@ export type PostBlock =
       title?: string | null;
       caption?: string | null;
     }
+  | { id: string; type: "link"; url: string; label: string; description?: string | null }
   | { id: string; type: "likes"; label: string };
 
 export type PostBlockType = PostBlock["type"];
@@ -55,6 +56,7 @@ export const BLOCK_LABELS: Record<PostBlockType, string> = {
   album: "Photo album",
   video: "Video",
   pdf: "PDF document",
+  link: "Link",
   likes: "Like section",
 };
 
@@ -78,6 +80,8 @@ export function newBlock(type: PostBlockType): PostBlock {
       return { id, type, url: "", caption: "" };
     case "pdf":
       return { id, type, path: null, url: null, fileName: null, title: "", caption: "" };
+    case "link":
+      return { id, type, url: "", label: "", description: "" };
     case "likes":
       return { id, type, label: "Did you enjoy our work?" };
   }

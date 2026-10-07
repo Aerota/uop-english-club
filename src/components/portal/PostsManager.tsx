@@ -64,6 +64,7 @@ const PALETTE: { type: PostBlockType; icon: typeof Text }[] = [
   { type: "album", icon: Images },
   { type: "video", icon: Video },
   { type: "pdf", icon: FileText },
+  { type: "link", icon: Link2 },
   { type: "likes", icon: Heart },
 ];
 
@@ -688,6 +689,31 @@ function BlockEditor({ block, busy, onChange, onUpload, onUploadPdf }: BlockEdit
         />
         <p className="text-xs text-muted-foreground">
           PDF files up to 15 MB. Readers scroll it inside a wide frame on the post.
+        </p>
+      </div>
+    );
+  }
+
+  if (block.type === "link") {
+    return (
+      <div className="grid gap-2">
+        <Input
+          value={block.url}
+          onChange={(event) => onChange({ url: event.target.value })}
+          placeholder="Web address (https://…)"
+        />
+        <Input
+          value={block.label}
+          onChange={(event) => onChange({ label: event.target.value })}
+          placeholder="Link text, e.g. Read the full story"
+        />
+        <Input
+          value={block.description ?? ""}
+          onChange={(event) => onChange({ description: event.target.value })}
+          placeholder="Short description (optional)"
+        />
+        <p className="text-xs text-muted-foreground">
+          Shows as a clickable card on the post and opens in a new tab.
         </p>
       </div>
     );
