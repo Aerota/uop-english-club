@@ -111,29 +111,6 @@ function MemoriesPage() {
         </div>
       </section>
 
-      <section className="bg-secondary/60 py-16">
-        <div className="section-shell">
-          <p className="eyebrow">Our journey</p>
-          <h2 className="mt-3 text-3xl font-semibold md:text-4xl">From whiteboard to launch</h2>
-          <div className="mt-10 space-y-6">
-            {JOURNEY.map((item) => (
-              <Card key={item.step} data-motion-reveal className={`motion-card overflow-hidden border border-[var(--tc-border)] shadow-soft ${item.theme}`}>
-                <span className="theme-stripe block h-1 w-full" aria-hidden="true" />
-                <CardContent className="flex gap-5 pt-6">
-                  <span className="flex size-11 shrink-0 items-center justify-center rounded-md bg-[var(--tc-soft)] font-display text-lg font-semibold text-[var(--tc)]">
-                    {item.step}
-                  </span>
-                  <div>
-                    <h3 className="text-lg font-semibold">{item.title}</h3>
-                    <p className="mt-2 text-sm text-muted-foreground">{item.text}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section className="section-shell py-16">
         <div className="flex flex-wrap items-center gap-3">
           <h2 className="text-3xl font-semibold md:text-4xl">Behind the Screens</h2>
@@ -164,6 +141,30 @@ function MemoriesPage() {
           ))}
         </div>
       </section>
+
+      <section className="bg-secondary/60 py-16">
+        <div className="section-shell">
+          <p className="eyebrow">Our journey</p>
+          <h2 className="mt-3 text-3xl font-semibold md:text-4xl">From whiteboard to launch</h2>
+          <div className="mt-10 space-y-6">
+            {JOURNEY.map((item) => (
+              <Card key={item.step} data-motion-reveal className={`motion-card overflow-hidden border border-[var(--tc-border)] shadow-soft ${item.theme}`}>
+                <span className="theme-stripe block h-1 w-full" aria-hidden="true" />
+                <CardContent className="flex gap-5 pt-6">
+                  <span className="flex size-11 shrink-0 items-center justify-center rounded-md bg-[var(--tc-soft)] font-display text-lg font-semibold text-[var(--tc)]">
+                    {item.step}
+                  </span>
+                  <div>
+                    <h3 className="text-lg font-semibold">{item.title}</h3>
+                    <p className="mt-2 text-sm text-muted-foreground">{item.text}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
 
       <section className="bg-primary-soft/60 py-16">
         <div className="section-shell max-w-3xl text-center">
