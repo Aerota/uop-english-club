@@ -620,14 +620,7 @@ function BlockEditor({ block, busy, onChange, onUpload, onUploadPdf }: BlockEdit
   }
 
   if (block.type === "paragraph") {
-    return (
-      <Textarea
-        rows={4}
-        value={block.text}
-        onChange={(event) => onChange({ text: event.target.value })}
-        placeholder="Write your paragraph…"
-      />
-    );
+    return <ParagraphEditor text={block.text} onText={(text) => onChange({ text })} />;
   }
 
   if (block.type === "likes") {
