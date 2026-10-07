@@ -12,7 +12,9 @@ import {
   Text,
   Trash2,
   Video,
+  Link2,
 } from "lucide-react";
+import { normalizeLink } from "@/lib/posts/links";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 
