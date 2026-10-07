@@ -6,7 +6,7 @@ import memoriesPlanningImg from "@/assets/image (1).jpeg";
 import memoriesPlanningImg2 from "@/assets/image (6).jpeg";
 import memoriesReviewImg from "@/assets/IMG_20260910_125701.jpg";
 import groupWorkImg from "@/assets/image (4).jpeg";
-import panelImg from "@/assets/image 7.jpg";
+import panelImg from "@/assets/image 7.jpeg";
 import presentationsImg from "@/assets/image (2).jpeg";
 import { PageHero, PageLayout } from "@/components/layout/PageLayout";
 import { Badge } from "@/components/ui/badge";
