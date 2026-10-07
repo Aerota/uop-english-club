@@ -767,3 +767,29 @@ function BlockEditor({ block, busy, onChange, onUpload, onUploadPdf }: BlockEdit
     </div>
   );
 }
+
+function ParagraphEditor({ text, onText }: { text: string; onText: (text: string) => void }) {
+  const ref = useRef<HTMLTextAreaElement>(null);
+  function addLink() {
+    const el = ref.current;
+    const start = el?.selectionStart ?? text.length;
+    const end = el?.selectionEnd ?? text.length;
+    const selected = text.slice(start, end);
+    const label = selected || window.prompt("Link text (the words people click)") || "";
+    if (!label.trim()) return;
+    const url = window.prompt("Link address (e.g. https://example.com)");
+    if (!url?.trim()) return;
+    onText(`${text.slice(0, start)}[${label}](${normalizeLink(url)})${text.slice(end)}`);
+  }
+  return (
+    <div className="space-y-2">
+      <Textarea ref={ref} rows={4} value={text} onChange={(e) => onText(e.target.value)} placeholder="Write your paragraph…" />
+      <div className="flex flex-wrap items-center gap-2">
+        <Button type="button" size="sm" variant="outline" onClick={addLink}>
+          <Link2 className="size-4" /> Add link
+        </Button>
+        <span className="text-xs text-muted-foreground">Select words first, then click Add link. Links look like [text](https://…).</span>
+      </div>
+    </div>
+  );
+}
